@@ -8,6 +8,8 @@ const char* password = "nbc1234!";
 void setup() 
 {
   Serial.begin(115200);
+  pinMode(LED_BUILTIN, OUTPUT); 
+  pinMode(2, OUTPUT); 
   WiFi.begin(ssid, password);
 
   while (WiFi.status() != WL_CONNECTED) 
@@ -18,16 +20,20 @@ void setup()
   Serial.println("Connected!");
 }
 
+char* hash = "2255387803FA41E9F2FD66A16804F6DF965492344E9C8C19AFDFA76C4D470DFD";
+
 void loop() 
 {
   if (WiFi.status() == WL_CONNECTED) 
   {
     HTTPClient http; //Object of class HTTPClient
-    http.begin("http://40.90.163.184:3000/transaction/2255387803FA41E9F2FD66A16804F6DF965492344E9C8C19AFDFA76C4D470DFD");
+    http.begin("http://40.90.163.184:3000/transaction/"+ hash);
     int httpCode = http.GET();
 
     if (httpCode > 0) 
     {
+      digitalWrite(LED_BUILTIN,HIGH);
+      digitalWrite(2,LOW);
       const size_t bufferSize = JSON_OBJECT_SIZE(6) + JSON_OBJECT_SIZE(4) + JSON_OBJECT_SIZE(9) + JSON_OBJECT_SIZE(2) + JSON_OBJECT_SIZE(5)+ 370;
       DynamicJsonBuffer jsonBuffer(bufferSize);
       JsonObject& root = jsonBuffer.parseObject(http.getString());
@@ -49,7 +55,11 @@ void loop()
       Serial.print("amount:");
       Serial.println(mosaicamount);
     }
+    
     http.end(); //Close connection
   }
+  digitalWrite(2,HIGH);
+  digitalWrite(LED_BUILTIN,LOW);
   delay(60000);
+  
 }
