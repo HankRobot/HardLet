@@ -34,8 +34,7 @@ void wifisetup(){
   Serial.println("Connected!");
 }
 
-String converttoascii(const char* message)
-{
+String converttoascii(const char* message){
   String result;
   for (int i = 0; i < strlen(message); i += 2) {
     char val = message[i] > 0x39 ? (message[i] - 'A' + 10) * 16 : (message[i] - '0') * 16;
@@ -47,7 +46,7 @@ String converttoascii(const char* message)
   return result;
 }
 
-void setup() {
+void setup(){
   wifisetup();
   displaysetup();
 }
@@ -77,23 +76,15 @@ void loop() {
       int mosaic = root["transaction"]["mosaics"][0]["id"][0]; 
       int mosaicamount = root["transaction"]["mosaics"][0]["amount"][0];
 
-      Serial.print("height:");
-      Serial.println(height);
-      Serial.print("hash:");
-      Serial.println(hash);
-      Serial.print("Recipient:");
-      Serial.println(recipient);
-      Serial.print("Message:");
-      Serial.println(message);
-      Serial.print("mosaic:");
-      Serial.println(mosaic);
-      Serial.print("amount:");
-      Serial.println(mosaicamount);
+      display.clear();
+      display.setFont(ArialMT_Plain_10);
 
-      displaystring(converttoascii(message));
+      displaystring("Block Height: " + String(height),0,0);
+      displaystring(converttoascii(message),0,15);
+      displaystring("MosaicId:" + String(mosaic),0,30);
+      displaystring("Mosaic:" + String(mosaicamount),0,45);
 
-      Serial.println("Testing:");
-      converttoascii(message);
+      display.display();
     }
     
     http.end(); //Close connection
@@ -105,10 +96,9 @@ void loop() {
 //=========================================================================
  
  
-void displaystring(String message) {
+void displaystring(String message,int x,int y) {
   // clear the display
-  display.clear();
-  display.setFont(ArialMT_Plain_10);
-  display.drawString(0, 26, message);
-  display.display();
+  
+  display.drawString(x, y, message);
+  
 }
