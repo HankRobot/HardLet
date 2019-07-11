@@ -5,6 +5,9 @@
         "vector": "cpp",
         "xhash": "cpp",
         "xstring": "cpp",
-        "xutility": "cpp"
+        "xutility": "cpp",
+        "type_traits": "cpp",
+        "functional": "cpp",
+        "xtr1common": "cpp"
     }
 }
