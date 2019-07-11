@@ -1,6 +1,7 @@
 {
     "board": "esp8266:esp8266:nodemcuv2",
     "configuration": "xtal=80,vt=flash,exception=disabled,ssl=all,eesz=4M,ip=lm2f,dbg=Disabled,lvl=None____,wipe=none,baud=115200",
-    "sketch": "AnnounceTransaction\\AnnounceTransaction.ino",
-    "programmer": "Arduino as ISP"
+    "sketch": "CheckAccountTransactions/CheckAccountTransactions.ino",
+    "programmer": "Arduino as ISP",
+    "port": "COM24"
 }

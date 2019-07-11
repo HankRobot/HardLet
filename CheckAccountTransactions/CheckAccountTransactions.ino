@@ -20,14 +20,14 @@ void setup()
   Serial.println("Connected!");
 }
 
-char* publickey = "CE674B3EC2645EE7EB65902A6CC4C84BE531F90BA3AFE06E010A74B6E5766D39";
+String lock = "CE674B3EC2645EE7EB65902A6CC4C84BE531F90BA3AFE06E010A74B6E5766D39";
 
 void loop() 
 {
   if (WiFi.status() == WL_CONNECTED) 
   {
     HTTPClient http; //Object of class HTTPClient
-    http.begin("http://40.90.163.184:3000//account/" + publickey + "/transactions" + "/incoming");
+    http.begin("http://40.90.163.184:3000//account/CE674B3EC2645EE7EB65902A6CC4C84BE531F90BA3AFE06E010A74B6E5766D39/transactions/incoming");
     int httpCode = http.GET();
 
     if (httpCode > 0) 
@@ -38,11 +38,11 @@ void loop()
       DynamicJsonBuffer jsonBuffer(bufferSize);
       JsonObject& root = jsonBuffer.parseObject(http.getString());
  
-      int height = root["meta"]["height"][0]; 
-      const char* hash = root["meta"]["hash"]; 
-      const char* recipient = root["transaction"]["recipient"]; 
-      int mosaic = root["transaction"]["mosaics"][0]["id"][0]; 
-      int mosaicamount = root["transaction"]["mosaics"][0]["amount"][0];
+      int height = root[0]["meta"]["height"][0]; 
+      const char* hash = root[0]["meta"]["hash"]; 
+      const char* recipient = root[0]["transaction"]["recipient"]; 
+      int mosaic = root[0]["transaction"]["mosaics"][0]["id"][0]; 
+      int mosaicamount = root[0]["transaction"]["mosaics"][0]["amount"][0];
 
       Serial.print("height:");
       Serial.println(height);
