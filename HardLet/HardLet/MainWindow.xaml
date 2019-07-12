@@ -39,12 +39,12 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Button x:Name="one" Click="One_Click"/>
-            <Button Grid.Column="1" x:Name="two" Click="Two_Click"/>
-            <Button Grid.Column="2" x:Name="three" Click="Three_Click"/>
-            <Button Grid.Row="1" x:Name="four" Click="Four_Click"/>
-            <Button Grid.Row="1" Grid.Column="1" x:Name="five"/>
-            <Button Grid.Row="1" Grid.Column="2" x:Name="six" Click="Six_Click"/>
+            <Button x:Name="one" FontSize="20" Click="One_Click"/>
+            <Button Grid.Column="1" x:Name="two" FontSize="20" Click="Two_Click"/>
+            <Button Grid.Column="2" x:Name="three" FontSize="20" Click="Three_Click"/>
+            <Button Grid.Row="1" x:Name="four" FontSize="20" Click="Four_Click"/>
+            <Button Grid.Row="1" Grid.Column="1" FontSize="20" x:Name="five" Click="Five_Click"/>
+            <Button Grid.Row="1" Grid.Column="2" FontSize="20" x:Name="six" Click="Six_Click"/>
         </Grid>
     </Grid>
 </Window>
