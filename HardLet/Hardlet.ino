@@ -13,7 +13,7 @@ SSD1306Wire  display(0x3c, D2, D1);  //D2=SDK  D1=SCK  As per labeling on NodeMC
 
 const char* ssid = "NBC_Guest";
 const char* password = "nbc1234!";
-
+/*--------------------------------------------------------------------------------Setup----------------------------------------------------------------------------------- */
 void displaysetup(){
   display.init();
   display.flipScreenVertically();
@@ -34,6 +34,23 @@ void wifisetup(){
   Serial.println("Connected!");
 }
 
+void setup(){
+  wifisetup();
+  displaysetup();
+}
+/*--------------------------------------------------------------------------------Main Program-------------------------------------------------------------------------------- */
+void loop() {
+  getblockchaininfo();
+  digitalWrite(2,HIGH);
+  digitalWrite(LED_BUILTIN,LOW);
+  delay(60000);
+}
+/*--------------------------------------------------------------------------------Functions-------------------------------------------------------------------------------- */
+void displaystring(String message,int x,int y) {
+  // clear the display
+  display.drawString(x, y, message);
+}
+
 String converttoascii(const char* message){
   String result;
   for (int i = 0; i < strlen(message); i += 2) {
@@ -46,15 +63,7 @@ String converttoascii(const char* message){
   return result;
 }
 
-void setup(){
-  wifisetup();
-  displaysetup();
-}
- 
-//=======================================================================
-//                    Main Program Loop
-//=======================================================================
-void loop() {
+void getblockchaininfo(){
   if (WiFi.status() == WL_CONNECTED) 
   {
     HTTPClient http; //Object of class HTTPClient
@@ -81,24 +90,12 @@ void loop() {
 
       displaystring("Block Height: " + String(height),0,0);
       displaystring(converttoascii(message),0,15);
-      displaystring("MosaicId:" + String(mosaic),0,30);
-      displaystring("Mosaic:" + String(mosaicamount),0,45);
+      displaystring("Mosaic ID: " + String(mosaic),0,30);
+      displaystring("Mosaic: " + String(mosaicamount),0,45);
 
       display.display();
     }
     
     http.end(); //Close connection
   }
-  digitalWrite(2,HIGH);
-  digitalWrite(LED_BUILTIN,LOW);
-  delay(60000);
-}
-//=========================================================================
- 
- 
-void displaystring(String message,int x,int y) {
-  // clear the display
-  
-  display.drawString(x, y, message);
-  
 }
