@@ -35,19 +35,52 @@ void wifisetup(){
 void setup(){
   wifisetup();
   displaysetup();
+  randomSeed(analogRead(0));
 }
 /*--------------------------------------------------------------------------------Main Program-------------------------------------------------------------------------------- */
 String message;
+int randNumber; 
+int pinseq[6];
 
 void loop() {
-  checkSerial();
-  if(message == "123456")
+  Serial.println("Starting debug");
+  randNumber = random(1,7);
+  pinseq[0] = randNumber;
+  int i = 1;
+  while(i<6){
+    for (int x = 1; x < 6; x++)
+    {
+      while(pinseq[i]==randNumber || pinseq[i] == pinseq[x]){
+        randNumber = random(1,7);
+      }
+      pinseq[i] = randNumber;
+      i++;
+    }
+  }
+  for (int x = 0; x < 6; x++)
   {
+    Serial.print(pinseq[x]);
+  }
+  Serial.println("");
+  Serial.println("End");
+  delay(1000);
+  /* 
+  while(pinseq.size()<6){
+    randNumber = random(1,7); // generate random number between 1 & 5 (minimum is inclusive, maximum is exclusive)
+    for (int i =0 ; i < pinseq.size(); i++)
+    {
+    }
+    Serial.println(randNumber);
+  }
+  */
+
+  /* 
+  checkSerial();
+  if(message == "123456"){
     digitalWrite(LED_BUILTIN,HIGH);
     getblockchaininfo();
   }
-  else if(message == "111111" || message == "000000")
-  {
+  else if(message == "111111" || message == "000000"){
     pinUI();
     Serial.println("Reset");
   }
@@ -55,6 +88,7 @@ void loop() {
     pinUI();
     Serial.println("Wrong Pin number");
   }
+  */
 }
 /*--------------------------------------------------------------------------------Display Functions-------------------------------------------------------------------------------- */
 void displaystring(String message,int x,int y) {
@@ -77,6 +111,10 @@ void pinUI(){
   displaystring("6",105-5,48-5);
 
   display.display();
+}
+
+void generatepin(){
+
 }
 /*--------------------------------------------------------------------------------Blockchain Functions-------------------------------------------------------------------------------- */
 String converttoascii(const char* message){
