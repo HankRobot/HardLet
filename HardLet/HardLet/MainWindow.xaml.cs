@@ -81,9 +81,16 @@ namespace HardLet
                         {
                             Console.WriteLine(buttonseq[i.ToString()]);
                         }
+
+                        //serial connect
                         mySerialPort = new SerialPort(COMList.SelectedItem.ToString(), 115200);
                         mySerialPort.Open();
                         MessageBox.Show("COM port connected", "COM port Status");
+
+                        //Send information
+                        mySerialPort.Write("0");
+
+                        //begin serial reading
                         mySerialPort.DataReceived += new SerialDataReceivedEventHandler(SerialDataRead);
                     }
                     catch (Exception ex)
