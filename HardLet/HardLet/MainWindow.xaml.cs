@@ -55,6 +55,11 @@ namespace HardLet
             COMList.ItemsSource = SerialPort.GetPortNames();
         }
 
+        /// <summary>
+        /// Serial Connection Button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Connection_Click(object sender, RoutedEventArgs e)
         {
             if (COMList.SelectedItem != null)
@@ -93,12 +98,22 @@ namespace HardLet
             }
         }
 
+        /// <summary>
+        /// Event for serial reading with multithreading
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void SerialDataRead(object sender, SerialDataReceivedEventArgs e)
         {
             comdata = mySerialPort.ReadLine();
             Dispatcher.Invoke((Action)(() => Console.Write("Data: " + comdata + "\n")));
         }
 
+        /// <summary>
+        /// User Interface buttons for 6 pin input
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void One_Click(object sender, RoutedEventArgs e)
         {
             if (oneset)
