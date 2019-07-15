@@ -40,46 +40,18 @@ void setup(){
 String message;
 
 void loop() {
-  while (Serial.available()>0)
-	{
-    message = Serial.readString();
-
-    if(message == "123456")
-    {
-      digitalWrite(LED_BUILTIN,HIGH);
-      getblockchaininfo();
-    }
-    else if(message == "000000")
-    {   
-      digitalWrite(LED_BUILTIN,LOW);
-      display.clear();
-      displaystring("Please enter your pin!",0,25);
-      display.display();
-    }
-    else if(message == "111111")
-    {
-      digitalWrite(LED_BUILTIN,LOW);
-      display.clear();
-      displaystring("Connection closed!",0,25);
-      display.display();
-    }
-    else
-    {
-      digitalWrite(LED_BUILTIN,LOW);
-      display.clear();
-      displaystring("Wrong pin number!",0,25);
-      display.display();
-      Serial.println("Wrong password");
-    }
-    //Serial.println(message);
-  }
+  checkSerial();
 }
-/*--------------------------------------------------------------------------------Functions-------------------------------------------------------------------------------- */
+/*--------------------------------------------------------------------------------Display Functions-------------------------------------------------------------------------------- */
 void displaystring(String message,int x,int y) {
   // clear the display
   display.drawString(x, y, message);
 }
 
+void pinUI(){
+
+}
+/*--------------------------------------------------------------------------------Blockchain Functions-------------------------------------------------------------------------------- */
 String converttoascii(const char* message){
   String result;
   for (int i = 0; i < strlen(message); i += 2) {
@@ -124,5 +96,41 @@ void getblockchaininfo(){
     }
     
     http.end(); //Close connection
+  }
+}
+/*--------------------------------------------------------------------------------Serial Functions-------------------------------------------------------------------------------- */
+void checkSerial(){
+  while (Serial.available()>0)
+	{
+    message = Serial.readString();
+
+    if(message == "123456")
+    {
+      digitalWrite(LED_BUILTIN,HIGH);
+      getblockchaininfo();
+    }
+    else if(message == "000000")
+    {   
+      digitalWrite(LED_BUILTIN,LOW);
+      display.clear();
+      displaystring("Please enter your pin!",0,25);
+      display.display();
+    }
+    else if(message == "111111")
+    {
+      digitalWrite(LED_BUILTIN,LOW);
+      display.clear();
+      displaystring("Connection closed!",0,25);
+      display.display();
+    }
+    else
+    {
+      digitalWrite(LED_BUILTIN,LOW);
+      display.clear();
+      displaystring("Wrong pin number!",0,25);
+      display.display();
+      Serial.println("Wrong password");
+    }
+    //Serial.println(message);
   }
 }
