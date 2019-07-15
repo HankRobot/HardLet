@@ -41,6 +41,20 @@ String message;
 
 void loop() {
   checkSerial();
+  if(message == "123456")
+  {
+    digitalWrite(LED_BUILTIN,HIGH);
+    getblockchaininfo();
+  }
+  else if(message == "111111" || message == "000000")
+  {
+    pinUI();
+    Serial.println("Reset");
+  }
+  else{
+    pinUI();
+    Serial.println("Wrong Pin number");
+  }
 }
 /*--------------------------------------------------------------------------------Display Functions-------------------------------------------------------------------------------- */
 void displaystring(String message,int x,int y) {
@@ -49,7 +63,20 @@ void displaystring(String message,int x,int y) {
 }
 
 void pinUI(){
+  display.clear();
+  //draw grids
+  display.drawHorizontalLine(0,32,128);
+  display.drawVerticalLine(42,0,64);
+  display.drawVerticalLine(84,0,64);
+  //put numbers
+  displaystring("1",21-4,16-7);
+  displaystring("2",63-4,16-7);
+  displaystring("3",105-4,16-7);
+  displaystring("4",21-5,48-5);
+  displaystring("5",64-5,48-5);
+  displaystring("6",105-5,48-5);
 
+  display.display();
 }
 /*--------------------------------------------------------------------------------Blockchain Functions-------------------------------------------------------------------------------- */
 String converttoascii(const char* message){
@@ -60,7 +87,6 @@ String converttoascii(const char* message){
 
     result += val; 
   }
-  Serial.println(result);
   return result;
 }
 
@@ -103,34 +129,5 @@ void checkSerial(){
   while (Serial.available()>0)
 	{
     message = Serial.readString();
-
-    if(message == "123456")
-    {
-      digitalWrite(LED_BUILTIN,HIGH);
-      getblockchaininfo();
-    }
-    else if(message == "000000")
-    {   
-      digitalWrite(LED_BUILTIN,LOW);
-      display.clear();
-      displaystring("Please enter your pin!",0,25);
-      display.display();
-    }
-    else if(message == "111111")
-    {
-      digitalWrite(LED_BUILTIN,LOW);
-      display.clear();
-      displaystring("Connection closed!",0,25);
-      display.display();
-    }
-    else
-    {
-      digitalWrite(LED_BUILTIN,LOW);
-      display.clear();
-      displaystring("Wrong pin number!",0,25);
-      display.display();
-      Serial.println("Wrong password");
-    }
-    //Serial.println(message);
   }
 }

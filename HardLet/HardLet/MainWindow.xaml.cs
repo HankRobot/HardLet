@@ -147,6 +147,10 @@ namespace HardLet
         void SerialDataRead(object sender, SerialDataReceivedEventArgs e)
         {
             comdata = mySerialPort.ReadLine();
+            if (comdata=="Wrong Pin number")
+            {
+
+            }
             Dispatcher.Invoke((Action)(() => Console.Write("Data: " + comdata + "\n")));
         }
 
