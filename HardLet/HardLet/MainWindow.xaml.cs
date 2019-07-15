@@ -64,14 +64,52 @@ namespace HardLet
             {
                 if (connected)
                 {
+                    //reset button parameters
+                    one.IsEnabled = true;
+                    two.IsEnabled = true;
+                    three.IsEnabled = true;
+                    four.IsEnabled = true;
+                    five.IsEnabled = true;
+                    six.IsEnabled = true;
+                    for (int i = 1; i < buttonseq.Count + 1; i++)
+                    {
+                        buttonseq[i.ToString()] = 1;
+                    }
+                    one.Content = "";
+                    two.Content = "";
+                    three.Content = "";
+                    four.Content = "";
+                    five.Content = "";
+                    six.Content = "";
+                    value = 1;
+                    oneset = false;
+                    twoset = false;
+                    threeset = false;
+                    fourset = false;
+                    fiveset = false;
+                    sixset = false;
+
+                    //send value to notify user and arduino close connection
+                    SerialDataSend(buttonseq);
                     connected = false;
                     Connection.Content = "Connect";
                     mySerialPort.Close();
                     MessageBox.Show("COM port disconnected", "COM port Status");
+
+                    for (int i = 1; i < buttonseq.Count + 1; i++)
+                    {
+                        buttonseq[i.ToString()] = 0;
+                    }
                 }
                 else
                 {
                     connected = true;
+                    one.IsEnabled = false;
+                    two.IsEnabled = false;
+                    three.IsEnabled = false;
+                    four.IsEnabled = false;
+                    five.IsEnabled = false;
+                    six.IsEnabled = false;
                     try
                     {
                         Connection.Content = "Disconnect";

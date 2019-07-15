@@ -3,7 +3,6 @@
 #include <Wire.h>  // Only needed for Arduino 1.6.5 and earlier
 #include "SSD1306Wire.h" // legacy include: `#include "SSD1306.h"`
  
- 
 // Initialize the OLED display using Wire library
 SSD1306Wire  display(0x3c, D2, D1);  //D2=SDK  D1=SCK  As per labeling on NodeMCU
  
@@ -22,8 +21,7 @@ void displaysetup(){
 
 void wifisetup(){
   Serial.begin(115200);
-  pinMode(LED_BUILTIN, OUTPUT); 
-  pinMode(2, OUTPUT); 
+  pinMode(LED_BUILTIN, OUTPUT);
   WiFi.begin(ssid, password);
 
   while (WiFi.status() != WL_CONNECTED) 
@@ -39,11 +37,42 @@ void setup(){
   displaysetup();
 }
 /*--------------------------------------------------------------------------------Main Program-------------------------------------------------------------------------------- */
+String message;
+
 void loop() {
-  getblockchaininfo();
-  digitalWrite(2,HIGH);
-  digitalWrite(LED_BUILTIN,LOW);
-  delay(60000);
+  while (Serial.available()>0)
+	{
+    message = Serial.readString();
+
+    if(message == "123456")
+    {
+      digitalWrite(LED_BUILTIN,HIGH);
+      getblockchaininfo();
+    }
+    else if(message == "000000")
+    {   
+      digitalWrite(LED_BUILTIN,LOW);
+      display.clear();
+      displaystring("Please enter your pin!",0,25);
+      display.display();
+    }
+    else if(message == "111111")
+    {
+      digitalWrite(LED_BUILTIN,LOW);
+      display.clear();
+      displaystring("Connection closed!",0,25);
+      display.display();
+    }
+    else
+    {
+      digitalWrite(LED_BUILTIN,LOW);
+      display.clear();
+      displaystring("Wrong pin number!",0,25);
+      display.display();
+      Serial.println("Wrong password");
+    }
+    //Serial.println(message);
+  }
 }
 /*--------------------------------------------------------------------------------Functions-------------------------------------------------------------------------------- */
 void displaystring(String message,int x,int y) {
@@ -73,7 +102,6 @@ void getblockchaininfo(){
     if (httpCode > 0) 
     {
       digitalWrite(LED_BUILTIN,HIGH);
-      digitalWrite(2,LOW);
       const size_t bufferSize = JSON_OBJECT_SIZE(6) + JSON_OBJECT_SIZE(4) + JSON_OBJECT_SIZE(9) + JSON_OBJECT_SIZE(7) + JSON_OBJECT_SIZE(2) + JSON_OBJECT_SIZE(5)+ 370;
       DynamicJsonBuffer jsonBuffer(bufferSize);
       JsonObject& root = jsonBuffer.parseObject(http.getString());
@@ -86,7 +114,6 @@ void getblockchaininfo(){
       int mosaicamount = root["transaction"]["mosaics"][0]["amount"][0];
 
       display.clear();
-      display.setFont(ArialMT_Plain_10);
 
       displaystring("Block Height: " + String(height),0,0);
       displaystring(converttoascii(message),0,15);
