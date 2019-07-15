@@ -1,8 +1,5 @@
-int led1 = 2;
-char mychar;
-long blinkSpeed;
-int loopFor;
-
+String mychar;
+int led1 =2;
 
 void setup()
 {
@@ -14,30 +11,19 @@ void loop()
 {
 	while (Serial.available()>0)
 	{
-        mychar = Serial.read();
+    mychar = Serial.readString();
 
-        if(mychar == '1')
-        {
-            digitalWrite(led1, HIGH);
-            Serial.println("On");
-        }
-        if(mychar == '0')
-        {   
-            digitalWrite(led1,LOW);
-            Serial.println("Off");
-        }
-
-        Serial.println("Testing");
+    if(mychar == "123456")
+    {
+      digitalWrite(led1, HIGH);
+      Serial.println("On");
     }
-}
-  
-void BlinkMyLED(int pinNumber, long _blinkSpeed, int _loopFor)
-{
-  for(int x = 0; x < _loopFor; x++)
-  {
-    digitalWrite(pinNumber, HIGH);
-    delay(_blinkSpeed);
-    digitalWrite(pinNumber, LOW);
-    delay(_blinkSpeed);
+    if(mychar == "0")
+    {   
+      digitalWrite(led1,LOW);
+      Serial.println("Off");
+    }
+
+    Serial.println(mychar);
   }
 }

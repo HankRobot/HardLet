@@ -58,8 +58,6 @@ namespace HardLet
         /// <summary>
         /// Serial Connection Button
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void Connection_Click(object sender, RoutedEventArgs e)
         {
             if (COMList.SelectedItem != null)
@@ -88,7 +86,7 @@ namespace HardLet
                         MessageBox.Show("COM port connected", "COM port Status");
 
                         //Send information
-                        mySerialPort.Write("0");
+                        SerialDataSend(buttonseq);
 
                         //begin serial reading
                         mySerialPort.DataReceived += new SerialDataReceivedEventHandler(SerialDataRead);
@@ -108,8 +106,6 @@ namespace HardLet
         /// <summary>
         /// Event for serial reading with multithreading
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         void SerialDataRead(object sender, SerialDataReceivedEventArgs e)
         {
             comdata = mySerialPort.ReadLine();
@@ -117,10 +113,17 @@ namespace HardLet
         }
 
         /// <summary>
+        /// Sends the pin data to the hardware wallet
+        /// </summary>
+        void SerialDataSend(IDictionary<string, int> pinseq)
+        {
+            String message = "{0}{1}{2}{3}{4}{5}";
+            message = String.Format(message,pinseq["1"], pinseq["2"], pinseq["3"], pinseq["4"], pinseq["5"], pinseq["6"]);
+            mySerialPort.Write(message);
+        }
+        /// <summary>
         /// User Interface buttons for 6 pin input
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void One_Click(object sender, RoutedEventArgs e)
         {
             if (oneset)
