@@ -8,6 +8,7 @@
         "xutility": "cpp",
         "type_traits": "cpp",
         "functional": "cpp",
-        "xtr1common": "cpp"
+        "xtr1common": "cpp",
+        "algorithm": "cpp"
     }
 }
