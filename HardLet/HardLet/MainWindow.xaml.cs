@@ -146,8 +146,11 @@ namespace HardLet
         /// </summary>
         void SerialDataRead(object sender, SerialDataReceivedEventArgs e)
         {
-            comdata = mySerialPort.ReadLine();
-            Dispatcher.Invoke((Action)(() => Console.Write("Data: " + comdata + "\n")));
+            if(mySerialPort.IsOpen)
+            {
+                comdata = mySerialPort.ReadLine();
+                Dispatcher.Invoke((Action)(() => Console.Write("Data: " + comdata + "\n")));
+            }
         }
 
         /// <summary>
@@ -155,9 +158,12 @@ namespace HardLet
         /// </summary>
         void SerialDataSend(IDictionary<string, int> pinseq)
         {
-            String message = "{0}{1}{2}{3}{4}{5}";
-            message = String.Format(message,pinseq["1"], pinseq["2"], pinseq["3"], pinseq["4"], pinseq["5"], pinseq["6"]);
-            mySerialPort.Write(message);
+            if (mySerialPort.IsOpen)
+            {
+                String message = "{0}{1}{2}{3}{4}{5}";
+                message = String.Format(message, pinseq["1"], pinseq["2"], pinseq["3"], pinseq["4"], pinseq["5"], pinseq["6"]);
+                mySerialPort.Write(message);
+            }
         }
         /// <summary>
         /// User Interface buttons for 6 pin input

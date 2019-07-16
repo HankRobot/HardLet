@@ -38,32 +38,38 @@ void setup() {
   randomSeed(analogRead(0));
 }
 /*--------------------------------------------------------------------------------Main Program-------------------------------------------------------------------------------- */
-String message;
+String message = "000000";
+bool reset = true;
+int* pinnum;
 
 void loop() {
-  int* pinnum = generatepin();
-  for (int i = 0; i < 6; i++)
-  {
-    Serial.print(pinnum[i]);
+  if(reset) {
+    pinnum = generatepin();
+    pinUI(pinnum);
+    reset = false;
+    message = "000000";
   }
-  Serial.println("");
-  pinUI(pinnum);
-  delay(5000);
-  /*
+  else {
+    String pass;
+    for (int i = 0; i < 6; i++) {
+      pass += String(pinnum[i]);
+    }
     checkSerial();
-    if(message == "123456"){
-    digitalWrite(LED_BUILTIN,HIGH);
-    getblockchaininfo();
+
+    if(message == pass) {
+      digitalWrite(LED_BUILTIN,HIGH);
+      getblockchaininfo();
     }
-    else if(message == "111111" || message == "000000"){
-    pinUI();
-    Serial.println("Reset");
+    else if (message == "111111")
+    {
+      reset = true;
     }
-    else{
-    pinUI();
-    Serial.println("Wrong Pin number");
+    else
+    {
+      Serial.println("Wrong Pin Number!");
+      pinUI(pinnum);
     }
-  */
+  }
 }
 /*--------------------------------------------------------------------------------Display Functions-------------------------------------------------------------------------------- */
 void displaystring(String message, int x, int y) {
@@ -87,10 +93,11 @@ void pinUI(int* pinseq) {
   display.display();
 }
 
+int sample[] = {1, 2, 3, 4, 5, 6};
 int* generatepin() {
   int randnumber;
   static int pinseq[6];
-  int sample[] = {1, 2, 3, 4, 5, 6};
+  
   randnumber = random(0, 6);
 
   for (int i = 0; i < 6; i++) {
@@ -99,6 +106,10 @@ int* generatepin() {
     }
     pinseq[i] = sample[randnumber];
     sample[randnumber] = 0;
+  }
+  for (int i = 0; i < 6; i++)
+  {
+    sample[i] = pinseq[i];
   }
   return pinseq;
 }
