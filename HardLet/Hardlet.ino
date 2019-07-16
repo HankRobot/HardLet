@@ -60,12 +60,10 @@ void loop() {
       digitalWrite(LED_BUILTIN,HIGH);
       getblockchaininfo();
     }
-    else if (message == "111111")
-    {
+    else if (message == "111111") {
       reset = true;
     }
-    else
-    {
+    else {
       Serial.println("Wrong Pin Number!");
       pinUI(pinnum);
     }
@@ -97,7 +95,6 @@ int sample[] = {1, 2, 3, 4, 5, 6};
 int* generatepin() {
   int randnumber;
   static int pinseq[6];
-  
   randnumber = random(0, 6);
 
   for (int i = 0; i < 6; i++) {
@@ -107,8 +104,7 @@ int* generatepin() {
     pinseq[i] = sample[randnumber];
     sample[randnumber] = 0;
   }
-  for (int i = 0; i < 6; i++)
-  {
+  for (int i = 0; i < 6; i++) {
     sample[i] = pinseq[i];
   }
   return pinseq;
@@ -152,7 +148,6 @@ void getblockchaininfo() {
 
       display.display();
     }
-
     http.end(); //Close connection
   }
 }
