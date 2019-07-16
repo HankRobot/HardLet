@@ -35,7 +35,7 @@ void wifisetup() {
 void setup() {
   wifisetup();
   displaysetup();
-  randomSeed(analogRead(0));
+  randomSeed(analogRead(D0));
 }
 /*--------------------------------------------------------------------------------Main Program-------------------------------------------------------------------------------- */
 String message = "000000";
