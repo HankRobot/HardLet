@@ -70,6 +70,7 @@ namespace HardLet
                     four.Content = "";
                     five.Content = "";
                     six.Content = "";
+                    SenderPrivateKey.Content = "";
                     value = 1;
                     oneset = false;
                     twoset = false;
@@ -141,7 +142,7 @@ namespace HardLet
                 Dispatcher.Invoke(() => Console.Write("Data: " + comdata + "\n"));
                 if (comdata.Substring(0,13) == message + "private")
                 {
-                    string privatekey = comdata.Substring(13, 10) + "..." + comdata.Substring(comdata.Length - 10, 10);
+                    string privatekey = comdata.Substring(13, 32) + System.Environment.NewLine + comdata.Substring(comdata.Length - 32, 32);
                     Dispatcher.InvokeAsync((Action)(() => SenderPrivateKey.Content = privatekey));
                 }
             }
