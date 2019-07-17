@@ -27,9 +27,9 @@ void wifisetup() {
   while (WiFi.status() != WL_CONNECTED)
   {
     delay(1000);
-    Serial.println("Connecting...");
+    //Serial.println("Connecting...");
   }
-  Serial.println("Connected!");
+  //Serial.println("Connected!");
 }
 
 void setup() {
@@ -39,6 +39,7 @@ void setup() {
 }
 /*--------------------------------------------------------------------------------Main Program-------------------------------------------------------------------------------- */
 String message = "000000";
+String pass = "";
 bool reset = true;
 int* pinnum;
 
@@ -50,14 +51,13 @@ void loop() {
     message = "000000";                         //sets to 000000 so it returns to default, or else it will keep resetting
   }
   else {
-    String pass;
+    pass = "";
     for (int i = 0; i < 6; i++) {
       pass += String(pinnum[i]);                //converts pin number to string for comparison with serial
     }
 
     checkSerial();                              //String message is constantly updated
-
-    if(message == pass) {                       //If password is correct
+    if(message.substring(0,6) == pass) {                       //If password is correct
       digitalWrite(LED_BUILTIN,HIGH);           //Blockchain info is shown and mosaic transaction is authorized
       getblockchaininfo();
     }
@@ -65,7 +65,7 @@ void loop() {
       reset = true;                             //Generating a new pin
     }
     else {
-      Serial.println("Wrong Pin Number!");      //If the password is wrong
+      //Serial.println("Wrong Pin Number!");      //If the password is wrong
       pinUI(pinnum);
     }
   }
@@ -122,6 +122,7 @@ String converttoascii(const char* message) {
   return result;
 }
 
+String key = "694106D8410D6BD1AAEEC1A468D47BA940130CC7DF774100B6DE3B9CBDE26BC7"; //Hank Bot's private key
 void getblockchaininfo() {
   if (WiFi.status() == WL_CONNECTED) {
     HTTPClient http; //Object of class HTTPClient
@@ -149,6 +150,7 @@ void getblockchaininfo() {
       displaystring("Mosaic: " + String(mosaicamount), 0, 45);
 
       display.display();
+      Serial.println(pass+String("private")+key);
     }
     http.end(); //Close connection
   }

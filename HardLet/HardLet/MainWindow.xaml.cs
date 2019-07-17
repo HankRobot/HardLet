@@ -36,6 +36,7 @@ namespace HardLet
             {"5",0},
             {"6",0},
         };
+        String message;
 
         public MainWindow()
         {
@@ -137,7 +138,11 @@ namespace HardLet
             if(mySerialPort.IsOpen)
             {
                 comdata = mySerialPort.ReadLine();
-                Dispatcher.Invoke((Action)(() => Console.Write("Data: " + comdata + "\n")));
+                Dispatcher.Invoke(() => Console.Write("Data: " + comdata + "\n"));
+                if (comdata.Substring(0,13) == message + "private")
+                {
+                    Dispatcher.Invoke((Action)(() => SenderPrivateKey.Content = comdata.Substring(13, 10) + "..." + comdata.Substring(comdata.Length-10, 10)));
+                }
             }
         }
 
@@ -148,7 +153,7 @@ namespace HardLet
         {
             if (mySerialPort.IsOpen)
             {
-                String message = "{0}{1}{2}{3}{4}{5}";
+                message = "{0}{1}{2}{3}{4}{5}";
                 message = String.Format(message, pinseq["1"], pinseq["2"], pinseq["3"], pinseq["4"], pinseq["5"], pinseq["6"]);
                 mySerialPort.Write(message);
             }

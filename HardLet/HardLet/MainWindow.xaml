@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HardLet"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="743.82" Width="1343.6" WindowStartupLocation="CenterScreen" WindowState="Maximized">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -17,18 +17,15 @@
             <RowDefinition Height="5*"/>
         </Grid.RowDefinitions>
 
-        <Label Grid.ColumnSpan="2" Content="HardLet, hardware wallet by Hank Bot" FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label Grid.ColumnSpan="2" Content="HardLet, hardware wallet by Hank Bot" FontSize="35" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" x:Name="Connection" FontSize="20" Content="Connect" Background="#FF00D1FF" Click="Connection_Click"/>
-            <ListBox x:Name="COMList" FontSize="20" Grid.Column="1"/>
+            <Button Grid.Column="0" x:Name="Connection" FontSize="30" Content="Connect" Background="#FF00D1FF" Click="Connection_Click"/>
+            <ListBox x:Name="COMList" FontSize="30" Grid.Column="1"/>
         </Grid>
-        
-        <Button Grid.Row="1" Grid.Column="1" FontSize="20" Content="Transact" Background="#FF00D1FF"/>
-
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -40,11 +37,66 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Button x:Name="one" FontSize="20" Click="One_Click"/>
-            <Button Grid.Column="1" x:Name="two" FontSize="20" Click="Two_Click"/>
-            <Button Grid.Column="2" x:Name="three" FontSize="20" Click="Three_Click"/>
-            <Button Grid.Row="1" x:Name="four" FontSize="20" Click="Four_Click"/>
-            <Button Grid.Row="1" Grid.Column="1" FontSize="20" x:Name="five" Click="Five_Click"/>
-            <Button Grid.Row="1" Grid.Column="2" FontSize="20" x:Name="six" Click="Six_Click"/>
+            <Button Grid.Column="1" x:Name="two" FontSize="25" Click="Two_Click"/>
+            <Button Grid.Column="2" x:Name="three" FontSize="25" Click="Three_Click"/>
+            <Button Grid.Row="1" x:Name="four" FontSize="25" Click="Four_Click"/>
+            <Button Grid.Row="1" Grid.Column="1" FontSize="25" x:Name="five" Click="Five_Click"/>
+            <Button Grid.Row="1" Grid.Column="2" FontSize="25" x:Name="six" Click="Six_Click"/>
         </Grid>
+
+        <Button Grid.Row="1" Grid.Column="1" FontSize="30" Content="Transact" Background="#FF00D1FF"/>
+        <Grid Grid.Row="2" Grid.Column="1"> 
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.3*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="0.6*"/>
+                <RowDefinition Height="0.6*"/>
+            </Grid.RowDefinitions>
+            <Line Grid.Column="0" Grid.RowSpan="8" HorizontalAlignment="Right"  X1="0" Y1="0" X2="0"  Y2="100" Stroke="#FF00D1FF" StrokeThickness="1" Stretch="Uniform"/>
+            <Line Grid.Column="1" Grid.RowSpan="8" HorizontalAlignment="Left" X1="0" Y1="0" X2="0"  Y2="100" Stroke="#FF00D1FF" StrokeThickness="1" Stretch="Uniform"/>
+            
+            <Label Grid.RowSpan="4" Content="Sender" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30">
+                <Label.LayoutTransform>
+                    <RotateTransform Angle="-90"/>
+                </Label.LayoutTransform>
+            </Label>
+            <Label Grid.Row="4" Grid.RowSpan="4" Content="Receiver" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30">
+                <Label.LayoutTransform>
+                    <RotateTransform Angle="-90"/>
+                </Label.LayoutTransform>
+            </Label>
+            <Label Grid.Row="0" Grid.Column="1" Content="Address:" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Label Grid.Row="1" Grid.Column="1" Content="Public Key:" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Label Grid.Row="2" Grid.Column="1" Content="Private Key:" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Label Grid.Row="3" Grid.Column="1" Content="Mosaic:" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+            <Line Grid.Row="3" Grid.ColumnSpan="3" VerticalAlignment="Bottom" X1="0" Y1="0" X2="100"  Y2="0" Stroke="#FF00D1FF" StrokeThickness="1" Stretch="Uniform"/>
+            <Line Grid.Row="4" Grid.ColumnSpan="3" VerticalAlignment="Top" X1="0" Y1="0" X2="100"  Y2="0" Stroke="#FF00D1FF" StrokeThickness="1" Stretch="Uniform"/>
+
+            <Label Grid.Row="4" Grid.Column="1" Content="Address:" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Label Grid.Row="5" Grid.Column="1" Content="Public Key:" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Label Grid.Row="6" Grid.Column="1" Content="Mosaic" FontSize="30" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+            <Label Grid.Row="7" Grid.Column="1" Content="Amount" FontSize="30" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+
+            <Label Grid.Row="0" Grid.Column="2" x:Name="SenderAddress" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Label Grid.Row="1" Grid.Column="2" x:Name="SenderPublicKey" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Label Grid.Row="2" Grid.Column="2" x:Name="SenderPrivateKey" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Label Grid.Row="3" Grid.Column="2" x:Name="SenderMosaics" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+            <TextBox Grid.Row="4" Grid.Column="2" x:Name="ReceiverAddress" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+            <TextBox Grid.Row="5" Grid.Column="2" x:Name="ReceiverPublicKey" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+            <TextBox Grid.Row="6" Grid.Column="2" Grid.RowSpan="2" x:Name="ReceiverMosaics" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+
+        </Grid>
+        
     </Grid>
 </Window>
