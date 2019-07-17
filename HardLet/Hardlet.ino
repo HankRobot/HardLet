@@ -16,7 +16,7 @@ const char* password = "nbc1234!";
 void displaysetup() {
   display.init();
   display.flipScreenVertically();
-  display.setFont(ArialMT_Plain_10);
+  display.setFont(ArialMT_Plain_16);
 }
 
 void wifisetup() {
@@ -47,24 +47,25 @@ void loop() {
     pinnum = generatepin();
     pinUI(pinnum);
     reset = false;
-    message = "000000";
+    message = "000000";                         //sets to 000000 so it returns to default, or else it will keep resetting
   }
   else {
     String pass;
     for (int i = 0; i < 6; i++) {
-      pass += String(pinnum[i]);
+      pass += String(pinnum[i]);                //converts pin number to string for comparison with serial
     }
-    checkSerial();
 
-    if(message == pass) {
-      digitalWrite(LED_BUILTIN,HIGH);
+    checkSerial();                              //String message is constantly updated
+
+    if(message == pass) {                       //If password is correct
+      digitalWrite(LED_BUILTIN,HIGH);           //Blockchain info is shown and mosaic transaction is authorized
       getblockchaininfo();
     }
-    else if (message == "111111") {
-      reset = true;
+    else if (message == "111111") {             //If the WPF app sends a 1111111, the wallet goes back into reset mode
+      reset = true;                             //Generating a new pin
     }
     else {
-      Serial.println("Wrong Pin Number!");
+      Serial.println("Wrong Pin Number!");      //If the password is wrong
       pinUI(pinnum);
     }
   }
@@ -76,17 +77,18 @@ void displaystring(String message, int x, int y) {
 
 void pinUI(int* pinseq) {
   display.clear();
+  display.setFont(ArialMT_Plain_16);
   //draw grids
   display.drawHorizontalLine(0, 32, 128);
   display.drawVerticalLine(42, 0, 64);
   display.drawVerticalLine(84, 0, 64);
   //put numbers
-  displaystring(String(pinseq[0]), 21 - 4, 16 - 7);
-  displaystring(String(pinseq[1]), 63 - 4, 16 - 7);
-  displaystring(String(pinseq[2]), 105 - 4, 16 - 7);
-  displaystring(String(pinseq[3]), 21 - 5, 48 - 5);
-  displaystring(String(pinseq[4]), 64 - 5, 48 - 5);
-  displaystring(String(pinseq[5]), 105 - 5, 48 - 5);
+  displaystring(String(pinseq[0]), 21 - 4, 16 - 11);
+  displaystring(String(pinseq[1]), 63 - 4, 16 - 11);
+  displaystring(String(pinseq[2]), 105 - 4, 16 - 11);
+  displaystring(String(pinseq[3]), 21 - 5, 48 - 6);
+  displaystring(String(pinseq[4]), 64 - 5, 48 - 6);
+  displaystring(String(pinseq[5]), 105 - 5, 48 - 6);
 
   display.display();
 }
@@ -140,7 +142,7 @@ void getblockchaininfo() {
       int mosaicamount = root["transaction"]["mosaics"][0]["amount"][0];
 
       display.clear();
-
+      display.setFont(ArialMT_Plain_10);
       displaystring("Block Height: " + String(height), 0, 0);
       displaystring(converttoascii(message), 0, 15);
       displaystring("Mosaic ID: " + String(mosaic), 0, 30);
