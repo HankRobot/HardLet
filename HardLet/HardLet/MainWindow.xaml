@@ -85,12 +85,12 @@
             <Label Grid.Row="4" Grid.Column="1" Content="Address:" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             <Label Grid.Row="5" Grid.Column="1" Content="Public Key:" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             <Label Grid.Row="6" Grid.Column="1" Content="Mosaic" FontSize="30" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
-            <Label Grid.Row="7" Grid.Column="1" Content="Amount" FontSize="30" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+            <Label Grid.Row="7" Grid.Column="1" Content="Amount" FontSize="30" VerticalContentAlignment="Top" HorizontalAlignment="Center"/>
 
-            <Label Grid.Row="0" Grid.Column="2" x:Name="SenderAddress" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            <Label Grid.Row="1" Grid.Column="2" x:Name="SenderPublicKey" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            <Label Grid.Row="2" Grid.Column="2" x:Name="SenderPrivateKey" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            <Label Grid.Row="3" Grid.Column="2" x:Name="SenderMosaics" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Label Grid.Row="0" Grid.Column="2" x:Name="SenderAddress" FontSize="30"/>
+            <Label Grid.Row="1" Grid.Column="2" x:Name="SenderPublicKey" FontSize="30"/>
+            <Label Grid.Row="2" Grid.Column="2" x:Name="SenderPrivateKey" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" FontSize="30"/>
+            <Label Grid.Row="3" Grid.Column="2" x:Name="SenderMosaics" FontSize="30"/>
 
             <TextBox Grid.Row="4" Grid.Column="2" x:Name="ReceiverAddress" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
             <TextBox Grid.Row="5" Grid.Column="2" x:Name="ReceiverPublicKey" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
