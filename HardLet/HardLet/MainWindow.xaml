@@ -94,8 +94,8 @@
             <Label Grid.Row="2" Grid.Column="2" x:Name="SenderPrivateKey" Content="" FontSize="25"/>
             <Label Grid.Row="3" Grid.Column="2" x:Name="SenderMosaics" Content="" FontSize="25"/>
 
-            <TextBox Grid.Row="4" Grid.Column="2" x:Name="ReceiverAddress" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
-            <TextBox Grid.Row="5" Grid.Column="2" x:Name="ReceiverMosaics" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+            <TextBox Grid.Row="4" Grid.Column="2" x:Name="ReceiverAddress" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+            <TextBox Grid.Row="5" Grid.Column="2" x:Name="ReceiverMosaics" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
 
         </Grid>
         

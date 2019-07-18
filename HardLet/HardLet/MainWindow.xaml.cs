@@ -224,7 +224,7 @@ namespace HardLet
         /// </summary>
         private void SerialDataRead(object sender, SerialDataReceivedEventArgs e)
         {
-            if(mySerialPort.IsOpen)
+            if (mySerialPort.IsOpen || Sender.getprivatekey() == null || Sender.getpublickey() == null)
             {
                 comdata = mySerialPort.ReadLine();
                 //Dispatcher.Invoke(() => Console.Write("Data: " + comdata + "\n"));
