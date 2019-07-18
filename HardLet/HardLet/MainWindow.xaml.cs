@@ -145,6 +145,12 @@ namespace HardLet
                     string privatekey = comdata.Substring(13, 32) + System.Environment.NewLine + comdata.Substring(comdata.Length - 33, 32);
                     Dispatcher.InvokeAsync((Action)(() => SenderPrivateKey.Content = privatekey));
                 }
+                else if (comdata.Substring(0, 12) == message + "public")
+                {
+                    string publickey = comdata.Substring(12, 32) + System.Environment.NewLine + comdata.Substring(comdata.Length - 33, 32);
+                    Console.WriteLine(publickey);
+                    Dispatcher.InvokeAsync((Action)(() => SenderPublicKey.Content = publickey));
+                }
             }
         }
 
