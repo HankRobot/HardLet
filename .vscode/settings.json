@@ -11,5 +11,6 @@
         "xtr1common": "cpp",
         "algorithm": "cpp",
         "memory": "cpp"
-    }
+    },
+    "git.ignoreLimitWarning": true
 }
