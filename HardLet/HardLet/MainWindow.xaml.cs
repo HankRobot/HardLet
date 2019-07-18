@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Windows;
 using System.IO.Ports;
 using RestSharp;
-using RestSharp.Authenticators;
 using System.Diagnostics;
-using System.Net;
-using System.IO;
 using Newtonsoft.Json.Linq;
+using System.Windows.Media;
 
 namespace HardLet
 {
@@ -42,8 +40,7 @@ namespace HardLet
             {"5",0},
             {"6",0},
         };
-        String message;
-
+        string message;
 
         /// <summary>
         /// Account info
@@ -66,6 +63,8 @@ namespace HardLet
                 if (connected)
                 {
                     //reset button parameters
+                    var bc = new BrushConverter();
+                    Connection.Background = (Brush)bc.ConvertFrom("#FF00D1FF");
                     one.IsEnabled = true;
                     two.IsEnabled = true;
                     three.IsEnabled = true;
@@ -82,7 +81,6 @@ namespace HardLet
                     four.Content = "";
                     five.Content = "";
                     six.Content = "";
-                    SenderPrivateKey.Content = "";
                     value = 1;
                     oneset = false;
                     twoset = false;
@@ -90,18 +88,19 @@ namespace HardLet
                     fourset = false;
                     fiveset = false;
                     sixset = false;
-
                     //send value to notify user and arduino close connection
                     SerialDataSend(buttonseq);
                     connected = false;
                     Connection.Content = "Connect";
                     mySerialPort.Close();
-                    MessageBox.Show("COM port disconnected", "COM port Status");
+                    //MessageBox.Show("COM port disconnected", "COM port Status");
 
                     for (int i = 1; i < buttonseq.Count + 1; i++)
                     {
                         buttonseq[i.ToString()] = 0;
                     }
+
+                    SenderPublicKey.Text = string.Empty;
                 }
                 else
                 {
@@ -115,6 +114,7 @@ namespace HardLet
                     try
                     {
                         Connection.Content = "Disconnect";
+                        Connection.Background = Brushes.Red;
                         for (int i = 1; i < buttonseq.Count+1; i++)
                         {
                             Console.WriteLine(buttonseq[i.ToString()]);
@@ -159,8 +159,9 @@ namespace HardLet
                 }
                 else if (comdata.Substring(0, 12) == message + "public")
                 {
-                    publickey = comdata.Substring(12, 32) + System.Environment.NewLine + comdata.Substring(comdata.Length - 33, 32);
-                    Dispatcher.InvokeAsync((Action)(() => SenderPublicKey.Text = publickey));
+                    publickey = comdata.Substring(12, 32) + comdata.Substring(comdata.Length - 33, 32);
+                    string displaypublickey = comdata.Substring(12, 32) + System.Environment.NewLine + comdata.Substring(comdata.Length - 33, 32);
+                    Dispatcher.InvokeAsync((Action)(() => SenderPublicKey.Text = displaypublickey));
                 }
             }
         }
@@ -177,6 +178,7 @@ namespace HardLet
                 mySerialPort.Write(message);
             }
         }
+
         /// <summary>
         /// User Interface buttons for 6 pin input
         /// </summary>
@@ -283,36 +285,29 @@ namespace HardLet
             }
         }
 
-
         /// <summary>
         /// REST API Account Updates 
         /// </summary>
         private void SenderPublicKey_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
-            string result = RESTAPIExecute("http://40.90.163.184:3000//account/58908D0758292DBAC944AAE6C76DBB50069C1CC11EC063F1870861DCCD1CA7BC");
-            Debug.WriteLine(result,"REST Result: ");
-            JObject root = JObject.Parse(result); // parse as array  
-            string address = (String)root["account"]["address"];
-            string mosaics = (String)root["account"]["mosaics"][0]["id"][0];
-            string mosaicsamount = (String)root["account"]["mosaics"][0]["amount"][0];
-            SenderAddress.Content = address;
-            SenderMosaics.Content = mosaics + "," + mosaicsamount; 
-            /*
-            foreach (KeyValuePair<String, JToken> app in root)
-                {
-                    var appName = app.Key;
-                    var address = (String)app.Value["account"]["address"];
-                    var mosaics = (String)app.Value["account"]["mosaics"][0]["id"][0];
-                    var mosaicsamount = (String)app.Value["account"]["mosaics"][0]["amount"][0];
-
-                    Console.WriteLine(appName);
-                    Console.WriteLine(address);
-                    Console.WriteLine(mosaics);
-                    Console.WriteLine(mosaicsamount);
-                    Console.WriteLine("\n");
-                }
-                */
-
+            if (mySerialPort.IsOpen)
+            {
+                string result = RESTAPIExecute("http://40.90.163.184:3000//account/" + publickey);
+                Debug.WriteLine(result, "REST Result: ");
+                JObject root = JObject.Parse(result); // parse as array  
+                string address = (String)root["account"]["address"];
+                string mosaics = (String)root["account"]["mosaics"][0]["id"][0];
+                string mosaicsamount = (String)root["account"]["mosaics"][0]["amount"][0];
+                SenderAddress.Content = address;
+                SenderMosaics.Content = mosaics + "," + mosaicsamount;
+            }
+            else
+            {
+                //Reset Label parameters
+                SenderPrivateKey.Content = string.Empty;
+                SenderAddress.Content = string.Empty;
+                SenderMosaics.Content = string.Empty;
+            }
         }
         public string RESTAPIExecute(string url)
         {
