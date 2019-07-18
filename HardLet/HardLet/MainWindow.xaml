@@ -83,8 +83,7 @@
             <Line Grid.Row="4" Grid.ColumnSpan="4" VerticalAlignment="Top" X1="0" Y1="0" X2="100"  Y2="0" Stroke="#FF00D1FF" StrokeThickness="1" Stretch="Uniform"/>
 
             <Label Grid.Row="4" Grid.Column="1" Content="Address:" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            <Label Grid.Row="5" Grid.Column="1" Content="Public Key:" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            <TextBlock Grid.Row="6" Grid.Column="1" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock Grid.Row="5" Grid.Column="1" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Center">
                 Mosaic 
                     <LineBreak/>
                 Amount: 
@@ -96,8 +95,7 @@
             <Label Grid.Row="3" Grid.Column="2" x:Name="SenderMosaics" Content="" FontSize="25"/>
 
             <TextBox Grid.Row="4" Grid.Column="2" x:Name="ReceiverAddress" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
-            <TextBox Grid.Row="5" Grid.Column="2" x:Name="ReceiverPublicKey" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
-            <TextBox Grid.Row="6" Grid.Column="2" Grid.RowSpan="2" x:Name="ReceiverMosaics" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+            <TextBox Grid.Row="5" Grid.Column="2" x:Name="ReceiverMosaics" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
 
         </Grid>
         

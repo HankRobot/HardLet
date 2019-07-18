@@ -28,22 +28,28 @@ const Account = nem2Sdk.Account,
 
 //Retrieve shell 
 var privateKey = "";
+var mosaicId = "";
+var mosaicamount = 0;
+var address = "";
 
-for (var i = 2; i < process.argv.length; i++) {
-    privateKey += process.argv[i];
-}
+privateKey = process.argv[2];
+mosaicId = process.argv[3];
+mosaicamount = parseInt(process.argv[4]);
+address = process.argv[5];
 
-//console.log("Your private key is:")
-//console.log(privateKey)
+console.log("Your private key is:");
+console.log(privateKey);
+console.log(mosaicId);
+console.log(address);
 
 /* start block 01 */
-const mosaicId = "77a1969932d987d7";     						//your mosaic mosaicId
-const address = "SADR23O6XLZXVHUKI4BLBFXY2Z7BPRZEUW5ESAQ6";		//the person's address you want to send to
+mosaicId = "77a1969932d987d7";     						//your mosaic mosaicId
+//const address = "SADR23O6XLZXVHUKI4BLBFXY2Z7BPRZEUW5ESAQ6";		//the person's address you want to send to
 
 const transferTransaction = TransferTransaction.create(
     Deadline.create(),
     Address.createFromRawAddress(address),
-    [new Mosaic(new MosaicId(mosaicId), UInt64.fromUint(1))],
+    [new Mosaic(new MosaicId(mosaicId), UInt64.fromUint(mosaicamount))],
     PlainMessage.create('enjoy your ticket!'),
     NetworkType.MIJIN_TEST
 );

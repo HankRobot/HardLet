@@ -44,22 +44,20 @@ namespace HardLet
         string message;
 
         /// <summary>
-        /// Account info
+        /// Account info class for sender and receiver
         /// </summary>
-        class Account
+        class SenderAccount
         {
-            public Account()
+            public SenderAccount()
             {
                 publickey = "";
                 privatekey = "";
-                mosaicamount = 0;
                 mosaicID = "";
             }
 
             private string publickey { get; set; }
             private string privatekey { get; set; }
             private string mosaicID { get; set; }
-            private int mosaicamount { get; set; }
 
             public void setpublickey(string puk)
             {
@@ -80,9 +78,50 @@ namespace HardLet
             {
                 return privatekey;
             }
+
+            public void setmosaicID(string mosaic)
+            {
+                mosaicID = mosaic;
+            }
+
+            public string getmosaicID()
+            {
+                return mosaicID;
+            }
         };
-        Account Sender = new Account();
-        Account Receiver = new Account();
+        class ReceiverAccount
+        {
+            public ReceiverAccount()
+            {
+                address = "";
+                mosaicamount = 0;
+            }
+
+            private string address { get; set; }
+            private int mosaicamount { get; set; }
+
+            public void setAddress(string add)
+            {
+                address = add;
+            }
+
+            public string getAddress()
+            {
+                return address;
+            }
+
+            public void setMosaicamount(int amount)
+            {
+                mosaicamount = amount;
+            }
+
+            public int getMosaicamount()
+            {
+                return mosaicamount;
+            }
+        };
+        SenderAccount Sender = new SenderAccount();
+        ReceiverAccount Receiver = new ReceiverAccount();
 
         public MainWindow()
         {
@@ -330,7 +369,6 @@ namespace HardLet
         {
             if (mySerialPort.IsOpen)
             {
-                Debug.WriteLine(Sender.getpublickey(), "LOLOLOLOLOLOLOLOLOLOLL");
                 string result = RESTAPIExecute("http://40.90.163.184:3000//account/" + Sender.getpublickey());
                 Debug.WriteLine(result, "REST Result: ");
                 JObject root = JObject.Parse(result); // parse as array  
@@ -339,6 +377,7 @@ namespace HardLet
                 string mosaicsamount = (String)root["account"]["mosaics"][0]["amount"][0];
                 SenderAddress.Content = address;
                 SenderMosaics.Content = mosaics + "," + mosaicsamount;
+                Sender.setmosaicID(mosaics);
             }
             else
             {
@@ -357,10 +396,15 @@ namespace HardLet
             return response.Content;
         }
 
+        /// <summary>
+        /// Transaction
+        /// </summary>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (ReceiverAddress.Text!=""||ReceiverMosaics.Text!=""||ReceiverPublicKey.Text!="")
+            if (ReceiverAddress.Text!=""||ReceiverMosaics.Text!="")
             {
+                Receiver.setAddress(ReceiverAddress.Text);
+                Receiver.setMosaicamount(int.Parse(ReceiverMosaics.Text));
                 beginTransact();
             }
         }
@@ -376,7 +420,10 @@ namespace HardLet
 
             // dummy parameters to send javascript  
             //string texttoencrypt = Sender.getprivatekey();
-            string content = Sender.getprivatekey();
+            string privatekey = Sender.getprivatekey();
+            string mosaicID = Sender.getmosaicID();
+            int amount = Receiver.getMosaicamount();
+            string address = Receiver.getAddress();
 
             // Create new process start info 
             ProcessStartInfo myProcessStartInfo = new ProcessStartInfo(nodejs);
@@ -388,7 +435,7 @@ namespace HardLet
             // start javascript app with 1 arguments  
             // 1st arguments is pointer to itself,  
             // 2nd and 3rd are actual arguments we want to send 
-            myProcessStartInfo.Arguments = mynodejsApp + " " + content;
+            myProcessStartInfo.Arguments = mynodejsApp + " " + privatekey + " " + mosaicID + " " + amount + " " + address;
             //myProcessStartInfo.Arguments = mynodejsApp;
 
             Process myProcess = new Process();
@@ -402,7 +449,15 @@ namespace HardLet
             // in order to avoid deadlock we will read output first 
             // and then wait for process terminate: 
             StreamReader myStreamReader = myProcess.StandardOutput;
+            string one = myStreamReader.ReadLine();
+            string two = myStreamReader.ReadLine();
+            string three = myStreamReader.ReadLine();
+            string four = myStreamReader.ReadLine();
             string Status = myStreamReader.ReadLine();
+            Console.WriteLine(one);
+            Console.WriteLine(two);
+            Console.WriteLine(three);
+            Console.WriteLine(four);
             Console.WriteLine(Status);
 
             myProcess.WaitForExit();
