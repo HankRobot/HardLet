@@ -6,6 +6,7 @@ using RestSharp;
 using System.Diagnostics;
 using Newtonsoft.Json.Linq;
 using System.Windows.Media;
+using System.IO;
 
 namespace HardLet
 {
@@ -45,7 +46,43 @@ namespace HardLet
         /// <summary>
         /// Account info
         /// </summary>
-        string publickey = "";
+        class Account
+        {
+            public Account()
+            {
+                publickey = "";
+                privatekey = "";
+                mosaicamount = 0;
+                mosaicID = "";
+            }
+
+            private string publickey { get; set; }
+            private string privatekey { get; set; }
+            private string mosaicID { get; set; }
+            private int mosaicamount { get; set; }
+
+            public void setpublickey(string puk)
+            {
+                publickey = puk;
+            }
+
+            public string getpublickey()
+            {
+                return publickey;
+            }
+
+            public void setprivatekey(string pik)
+            {
+                privatekey = pik;
+            }
+
+            public string getprivatekey()
+            {
+                return privatekey;
+            }
+        };
+        Account Sender = new Account();
+        Account Receiver = new Account();
 
         public MainWindow()
         {
@@ -146,7 +183,7 @@ namespace HardLet
         /// <summary>
         /// Event for serial reading with multithreading
         /// </summary>
-        void SerialDataRead(object sender, SerialDataReceivedEventArgs e)
+        private void SerialDataRead(object sender, SerialDataReceivedEventArgs e)
         {
             if(mySerialPort.IsOpen)
             {
@@ -155,13 +192,14 @@ namespace HardLet
                 if (comdata.Substring(0,13) == message + "private")
                 {
                     string privatekey = comdata.Substring(13, 32) + System.Environment.NewLine + comdata.Substring(comdata.Length - 33, 32);
+                    Sender.setprivatekey(comdata.Substring(13, 64));
                     Dispatcher.InvokeAsync((Action)(() => SenderPrivateKey.Content = privatekey));
                 }
                 else if (comdata.Substring(0, 12) == message + "public")
                 {
-                    publickey = comdata.Substring(12, 32) + comdata.Substring(comdata.Length - 33, 32);
-                    string displaypublickey = comdata.Substring(12, 32) + System.Environment.NewLine + comdata.Substring(comdata.Length - 33, 32);
-                    Dispatcher.InvokeAsync((Action)(() => SenderPublicKey.Text = displaypublickey));
+                    string publickey = comdata.Substring(12, 32) + System.Environment.NewLine + comdata.Substring(comdata.Length - 33, 32);
+                    Sender.setpublickey(comdata.Substring(12, 64));
+                    Dispatcher.InvokeAsync((Action)(() => SenderPublicKey.Text = publickey));
                 }
             }
         }
@@ -169,7 +207,7 @@ namespace HardLet
         /// <summary>
         /// Sends the pin data to the hardware wallet
         /// </summary>
-        void SerialDataSend(IDictionary<string, int> pinseq)
+        private void SerialDataSend(IDictionary<string, int> pinseq)
         {
             if (mySerialPort.IsOpen)
             {
@@ -292,7 +330,8 @@ namespace HardLet
         {
             if (mySerialPort.IsOpen)
             {
-                string result = RESTAPIExecute("http://40.90.163.184:3000//account/" + publickey);
+                Debug.WriteLine(Sender.getpublickey(), "LOLOLOLOLOLOLOLOLOLOLL");
+                string result = RESTAPIExecute("http://40.90.163.184:3000//account/" + Sender.getpublickey());
                 Debug.WriteLine(result, "REST Result: ");
                 JObject root = JObject.Parse(result); // parse as array  
                 string address = (String)root["account"]["address"];
@@ -309,13 +348,66 @@ namespace HardLet
                 SenderMosaics.Content = string.Empty;
             }
         }
-        public string RESTAPIExecute(string url)
+        private string RESTAPIExecute(string url)
         {
             var client = new RestClient(url);
 
             var response = client.Execute(new RestRequest());
 
             return response.Content;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (ReceiverAddress.Text!=""||ReceiverMosaics.Text!=""||ReceiverPublicKey.Text!="")
+            {
+                beginTransact();
+            }
+        }
+
+        private void beginTransact()
+        {
+            // full path of nodejs interpreter 
+            string nodejs = "node";
+
+            // js app to call
+            string mynodejsApp = @"..\..\transact.js"; //directory for create.js
+            //string mynodejsApp = @"..\..\transfer.js"; //directory for create.js
+
+            // dummy parameters to send javascript  
+            //string texttoencrypt = Sender.getprivatekey();
+            string content = Sender.getprivatekey();
+
+            // Create new process start info 
+            ProcessStartInfo myProcessStartInfo = new ProcessStartInfo(nodejs);
+
+            // make sure we can read the output from stdout 
+            myProcessStartInfo.UseShellExecute = false;
+            myProcessStartInfo.RedirectStandardOutput = true;
+
+            // start javascript app with 1 arguments  
+            // 1st arguments is pointer to itself,  
+            // 2nd and 3rd are actual arguments we want to send 
+            myProcessStartInfo.Arguments = mynodejsApp + " " + content;
+            //myProcessStartInfo.Arguments = mynodejsApp;
+
+            Process myProcess = new Process();
+            // assign start information to the process 
+            myProcess.StartInfo = myProcessStartInfo;
+
+            // start the process
+            myProcess.Start();
+
+            // Read the standard output of the app we called.  
+            // in order to avoid deadlock we will read output first 
+            // and then wait for process terminate: 
+            StreamReader myStreamReader = myProcess.StandardOutput;
+            string Status = myStreamReader.ReadLine();
+            Console.WriteLine(Status);
+
+            myProcess.WaitForExit();
+            myProcess.Close();
+            MessageBox.Show(Status, "Transaction Status");
         }
     }
 

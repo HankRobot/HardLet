@@ -44,7 +44,7 @@
             <Button Grid.Row="1" Grid.Column="2" FontSize="25" x:Name="six" Click="Six_Click"/>
         </Grid>
 
-        <Button Grid.Row="1" Grid.Column="1" FontSize="30" Content="Transact" Background="#FF00D1FF"/>
+        <Button Grid.Row="1" Grid.Column="1" FontSize="30" Content="Transact" Background="#FF00D1FF" Click="Button_Click"/>
         <Grid Grid.Row="2" Grid.Column="1"> 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.3*"/>

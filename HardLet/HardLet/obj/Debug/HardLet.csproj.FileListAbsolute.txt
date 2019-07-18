@@ -18,3 +18,4 @@ C:\Users\User\Desktop\ArduinoNEM\HardLet\HardLet\bin\Debug\RestSharp.xml
 C:\Users\User\Desktop\ArduinoNEM\HardLet\HardLet\obj\Debug\HardLet.csproj.CopyComplete
 C:\Users\User\Desktop\ArduinoNEM\HardLet\HardLet\bin\Debug\Newtonsoft.Json.dll
 C:\Users\User\Desktop\ArduinoNEM\HardLet\HardLet\bin\Debug\Newtonsoft.Json.xml
+C:\Users\User\Desktop\ArduinoNEM\HardLet\HardLet\obj\Debug\HardLet_Content.g.cs
