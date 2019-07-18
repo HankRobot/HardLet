@@ -123,6 +123,7 @@ String converttoascii(const char* message) {
 }
 
 String key = "694106D8410D6BD1AAEEC1A468D47BA940130CC7DF774100B6DE3B9CBDE26BC7"; //Hank Bot's private key
+String pubkey = "58908D0758292DBAC944AAE6C76DBB50069C1CC11EC063F1870861DCCD1CA7BC"; //Hank Bot's public key
 void getblockchaininfo() {
   if (WiFi.status() == WL_CONNECTED) {
     HTTPClient http; //Object of class HTTPClient
@@ -151,6 +152,7 @@ void getblockchaininfo() {
 
       display.display();
       Serial.println(pass+String("private")+key);
+      Serial.println(pass+String("public")+pubkey);
     }
     http.end(); //Close connection
   }

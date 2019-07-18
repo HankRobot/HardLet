@@ -142,7 +142,7 @@ namespace HardLet
                 Dispatcher.Invoke(() => Console.Write("Data: " + comdata + "\n"));
                 if (comdata.Substring(0,13) == message + "private")
                 {
-                    string privatekey = comdata.Substring(13, 32) + System.Environment.NewLine + comdata.Substring(comdata.Length - 32, 32);
+                    string privatekey = comdata.Substring(13, 32) + System.Environment.NewLine + comdata.Substring(comdata.Length - 33, 32);
                     Dispatcher.InvokeAsync((Action)(() => SenderPrivateKey.Content = privatekey));
                 }
             }
