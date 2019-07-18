@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.IO.Ports;
+using RestSharp;
+using RestSharp.Authenticators;
+using System.Diagnostics;
+using System.Net;
+using System.IO;
+using Newtonsoft.Json.Linq;
 
 namespace HardLet
 {
@@ -37,6 +43,12 @@ namespace HardLet
             {"6",0},
         };
         String message;
+
+
+        /// <summary>
+        /// Account info
+        /// </summary>
+        string publickey = "";
 
         public MainWindow()
         {
@@ -139,7 +151,7 @@ namespace HardLet
             if(mySerialPort.IsOpen)
             {
                 comdata = mySerialPort.ReadLine();
-                Dispatcher.Invoke(() => Console.Write("Data: " + comdata + "\n"));
+                //Dispatcher.Invoke(() => Console.Write("Data: " + comdata + "\n"));
                 if (comdata.Substring(0,13) == message + "private")
                 {
                     string privatekey = comdata.Substring(13, 32) + System.Environment.NewLine + comdata.Substring(comdata.Length - 33, 32);
@@ -147,9 +159,8 @@ namespace HardLet
                 }
                 else if (comdata.Substring(0, 12) == message + "public")
                 {
-                    string publickey = comdata.Substring(12, 32) + System.Environment.NewLine + comdata.Substring(comdata.Length - 33, 32);
-                    Console.WriteLine(publickey);
-                    Dispatcher.InvokeAsync((Action)(() => SenderPublicKey.Content = publickey));
+                    publickey = comdata.Substring(12, 32) + System.Environment.NewLine + comdata.Substring(comdata.Length - 33, 32);
+                    Dispatcher.InvokeAsync((Action)(() => SenderPublicKey.Text = publickey));
                 }
             }
         }
@@ -271,5 +282,46 @@ namespace HardLet
                 value++;
             }
         }
+
+
+        /// <summary>
+        /// REST API Account Updates 
+        /// </summary>
+        private void SenderPublicKey_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            string result = RESTAPIExecute("http://40.90.163.184:3000//account/58908D0758292DBAC944AAE6C76DBB50069C1CC11EC063F1870861DCCD1CA7BC");
+            Debug.WriteLine(result,"REST Result: ");
+            JObject root = JObject.Parse(result); // parse as array  
+            string address = (String)root["account"]["address"];
+            string mosaics = (String)root["account"]["mosaics"][0]["id"][0];
+            string mosaicsamount = (String)root["account"]["mosaics"][0]["amount"][0];
+            SenderAddress.Content = address;
+            SenderMosaics.Content = mosaics + "," + mosaicsamount; 
+            /*
+            foreach (KeyValuePair<String, JToken> app in root)
+                {
+                    var appName = app.Key;
+                    var address = (String)app.Value["account"]["address"];
+                    var mosaics = (String)app.Value["account"]["mosaics"][0]["id"][0];
+                    var mosaicsamount = (String)app.Value["account"]["mosaics"][0]["amount"][0];
+
+                    Console.WriteLine(appName);
+                    Console.WriteLine(address);
+                    Console.WriteLine(mosaics);
+                    Console.WriteLine(mosaicsamount);
+                    Console.WriteLine("\n");
+                }
+                */
+
+        }
+        public string RESTAPIExecute(string url)
+        {
+            var client = new RestClient(url);
+
+            var response = client.Execute(new RestRequest());
+
+            return response.Content;
+        }
     }
+
 }

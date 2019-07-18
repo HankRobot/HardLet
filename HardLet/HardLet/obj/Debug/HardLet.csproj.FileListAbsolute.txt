@@ -13,3 +13,8 @@ C:\Users\User\Desktop\ArduinoNEM\HardLet\HardLet\obj\Debug\HardLet.csproj.CoreCo
 C:\Users\User\Desktop\ArduinoNEM\HardLet\HardLet\obj\Debug\HardLet.exe
 C:\Users\User\Desktop\ArduinoNEM\HardLet\HardLet\obj\Debug\HardLet.pdb
 C:\Users\User\Desktop\ArduinoNEM\HardLet\HardLet\obj\Debug\HardLet.csprojAssemblyReference.cache
+C:\Users\User\Desktop\ArduinoNEM\HardLet\HardLet\bin\Debug\RestSharp.dll
+C:\Users\User\Desktop\ArduinoNEM\HardLet\HardLet\bin\Debug\RestSharp.xml
+C:\Users\User\Desktop\ArduinoNEM\HardLet\HardLet\obj\Debug\HardLet.csproj.CopyComplete
+C:\Users\User\Desktop\ArduinoNEM\HardLet\HardLet\bin\Debug\Newtonsoft.Json.dll
+C:\Users\User\Desktop\ArduinoNEM\HardLet\HardLet\bin\Debug\Newtonsoft.Json.xml
