@@ -461,7 +461,27 @@ namespace HardLet
 
             myProcess.WaitForExit();
             myProcess.Close();
-            MessageBox.Show(Status, "Transaction Status");
+            if (Status != "Success!")
+            {
+                MessageBox.Show("Transaction Failed", "Transaction Status");
+            }
+            else
+            {
+                MessageBox.Show(Status, "Transaction Status");
+            }
+        }
+
+        private void Refresh_Click(object sender, RoutedEventArgs e)
+        {
+            string result = RESTAPIExecute("http://40.90.163.184:3000//account/" + Sender.getpublickey());
+            Debug.WriteLine(result, "REST Result: ");
+            JObject root = JObject.Parse(result); // parse as array  
+            string address = (String)root["account"]["address"];
+            string mosaics = (String)root["account"]["mosaics"][0]["id"][0];
+            string mosaicsamount = (String)root["account"]["mosaics"][0]["amount"][0];
+            SenderAddress.Content = address;
+            SenderMosaics.Content = mosaics + "," + mosaicsamount;
+            Sender.setmosaicID(mosaics);
         }
     }
 
