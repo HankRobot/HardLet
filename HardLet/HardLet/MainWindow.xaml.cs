@@ -127,6 +127,7 @@ namespace HardLet
         {
             InitializeComponent();
             COMList.ItemsSource = SerialPort.GetPortNames();
+            mySerialPort = new SerialPort();
         }
 
         /// <summary>
@@ -147,6 +148,7 @@ namespace HardLet
                     four.IsEnabled = true;
                     five.IsEnabled = true;
                     six.IsEnabled = true;
+                    Refresh.IsEnabled = false;
                     for (int i = 1; i < buttonseq.Count + 1; i++)
                     {
                         buttonseq[i.ToString()] = 1;
@@ -224,21 +226,29 @@ namespace HardLet
         /// </summary>
         private void SerialDataRead(object sender, SerialDataReceivedEventArgs e)
         {
-            if (mySerialPort.IsOpen || SenderPrivateKey.Content == string.Empty || SenderPublicKey.Text == string.Empty)
+            try
             {
-                comdata = mySerialPort.ReadLine();
-                if (comdata.Substring(0,13) == message + "private")
+                if (mySerialPort.IsOpen || SenderPrivateKey.Content == string.Empty || SenderPublicKey.Text == string.Empty)
                 {
-                    string privatekey = comdata.Substring(13, 32) + System.Environment.NewLine + comdata.Substring(comdata.Length - 33, 32);
-                    Sender.setprivatekey(comdata.Substring(13, 64));
-                    Dispatcher.InvokeAsync((Action)(() => SenderPrivateKey.Content = privatekey));
+                    comdata = mySerialPort.ReadLine();
+                    Dispatcher.InvokeAsync((Action)(() => Console.WriteLine("Data: " + comdata)));
+                    if (comdata.Substring(0, 13) == message + "private")
+                    {
+                        string privatekey = comdata.Substring(13, 32) + System.Environment.NewLine + comdata.Substring(comdata.Length - 33, 32);
+                        Sender.setprivatekey(comdata.Substring(13, 64));
+                        Dispatcher.InvokeAsync((Action)(() => SenderPrivateKey.Content = privatekey));
+                    }
+                    else if (comdata.Substring(0, 12) == message + "public")
+                    {
+                        string publickey = comdata.Substring(12, 32) + System.Environment.NewLine + comdata.Substring(comdata.Length - 33, 32);
+                        Sender.setpublickey(comdata.Substring(12, 64));
+                        Dispatcher.InvokeAsync((Action)(() => SenderPublicKey.Text = publickey));
+                    }
                 }
-                else if (comdata.Substring(0, 12) == message + "public")
-                {
-                    string publickey = comdata.Substring(12, 32) + System.Environment.NewLine + comdata.Substring(comdata.Length - 33, 32);
-                    Sender.setpublickey(comdata.Substring(12, 64));
-                    Dispatcher.InvokeAsync((Action)(() => SenderPublicKey.Text = publickey));
-                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
             }
         }
 
@@ -430,6 +440,7 @@ namespace HardLet
             // make sure we can read the output from stdout 
             myProcessStartInfo.UseShellExecute = false;
             myProcessStartInfo.RedirectStandardOutput = true;
+            myProcessStartInfo.CreateNoWindow = true;
 
             // start javascript app with 1 arguments  
             // 1st arguments is pointer to itself,  
@@ -440,6 +451,7 @@ namespace HardLet
             Process myProcess = new Process();
             // assign start information to the process 
             myProcess.StartInfo = myProcessStartInfo;
+            myProcess.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
 
             // start the process
             myProcess.Start();
@@ -468,6 +480,7 @@ namespace HardLet
             else
             {
                 MessageBox.Show(Status, "Transaction Status");
+                Refresh.IsEnabled = true;
             }
         }
 
@@ -482,6 +495,20 @@ namespace HardLet
             SenderAddress.Content = address;
             SenderMosaics.Content = mosaics + "," + mosaicsamount;
             Sender.setmosaicID(mosaics);
+        }
+
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+            if (mySerialPort.IsOpen)
+            {
+                for (int i = 1; i < buttonseq.Count + 1; i++)
+                {
+                    buttonseq[i.ToString()] = 1;
+                }
+                SerialDataSend(buttonseq);
+                mySerialPort.Close();
+            }
+            Application.Current.Shutdown();
         }
     }
 
