@@ -465,11 +465,13 @@ namespace HardLet
             string three = myStreamReader.ReadLine();
             string four = myStreamReader.ReadLine();
             string Status = myStreamReader.ReadLine();
+            string hash = myStreamReader.ReadLine();
             Console.WriteLine(one);
             Console.WriteLine(two);
             Console.WriteLine(three);
             Console.WriteLine(four);
             Console.WriteLine(Status);
+            Console.WriteLine(hash);
 
             myProcess.WaitForExit();
             myProcess.Close();
@@ -479,7 +481,14 @@ namespace HardLet
             }
             else
             {
-                MessageBox.Show(Status, "Transaction Status");
+                MessageBoxResult result = MessageBox.Show(Status + "\n Here is your hash:" + hash, "Transaction Status");
+                switch (result)
+                {
+                    case MessageBoxResult.Yes:
+                        Process.Start("http://40.90.163.184:3000/transaction/" + hash);
+                        break;
+                }
+                Process.Start("http://www.webpage.com");
                 Refresh.IsEnabled = true;
             }
         }

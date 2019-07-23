@@ -8,6 +8,7 @@ function checkvalidity(hashstring)
         const user = JSON.parse(body);
         if (res.statusCode==200 && user['status']=='Success') {
             console.info("Success!");
+            console.info(hashstring);
         }
         else{
             console.info("Transaction Failed");
