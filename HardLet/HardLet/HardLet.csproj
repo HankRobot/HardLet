@@ -114,6 +114,7 @@
     </Resource>
     <Resource Include="Images\close.png" />
     <Resource Include="Icon.ico" />
+    <Resource Include="Images\download.png" />
     <Content Include="transact.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -231,7 +231,7 @@ namespace HardLet
                 if (mySerialPort.IsOpen || SenderPrivateKey.Content == string.Empty || SenderPublicKey.Text == string.Empty)
                 {
                     comdata = mySerialPort.ReadLine();
-                    //Dispatcher.InvokeAsync((Action)(() => Console.WriteLine("Data: " + comdata)));
+                    Dispatcher.InvokeAsync((Action)(() => Console.WriteLine("Data: " + comdata)));
                     if (comdata.Substring(0, 13) == message + "private")
                     {
                         string privatekey = comdata.Substring(13, 32) + System.Environment.NewLine + comdata.Substring(comdata.Length - 33, 32);

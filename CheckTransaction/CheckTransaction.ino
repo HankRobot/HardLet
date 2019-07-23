@@ -2,8 +2,8 @@
 #include <ESP8266HTTPClient.h>
 #include <ArduinoJson.h>
 
-const char* ssid = "NBC_Guest";
-const char* password = "nbc1234!";
+//const char* ssid = "NBC_Guest";
+//const char* password = "nbc1234!";
 
 void setup() 
 {
@@ -11,7 +11,7 @@ void setup()
   pinMode(LED_BUILTIN, OUTPUT); 
   pinMode(2, OUTPUT); 
   WiFi.begin(ssid, password);
-
+  
   while (WiFi.status() != WL_CONNECTED) 
   {
     delay(1000);
