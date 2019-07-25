@@ -1,16 +1,17 @@
 const nem2Sdk = require("nem2-sdk");
+const node = 'http://52.194.207.217:3000';
 
 function checkvalidity(hashstring)
 {
-    var request=require('request');
-    var url = 'http://40.90.163.184:3000/transaction/' + hashstring + '/status';
-    request.get(url,null,function(err,res,body){
+    const request = require('request');
+    var url = node + '/transaction/' + hashstring + '/status';
+    request(url, function (error, response, body) {
         const user = JSON.parse(body);
-        if (res.statusCode==200 && user['status']=='Success') {
-            console.info("Success!");
+        if ( (response && response.statusCode) == 200 || user["status"] == "Success") {
+            console.log("Transaction Success!");
         }
         else{
-            console.info("Transaction Failed");
+            console.log("Transaction failed");
         }
     });
 }
@@ -33,12 +34,9 @@ for (var i = 2; i < process.argv.length; i++) {
     privateKey += process.argv[i];
 }
 
-//console.log("Your private key is:")
-//console.log(privateKey)
-
 /* start block 01 */
-const mosaicId = "77a1969932d987d7";     						//your mosaic mosaicId
-const address = "SADR23O6XLZXVHUKI4BLBFXY2Z7BPRZEUW5ESAQ6";		//the person's address you want to send to
+const mosaicId = "77a1969932d987d7";     						        //your mosaic mosaicId
+const address = "SC7APJ3C6BWK3DWVMNUJRQXETYMIC6Y2OG557QHU";		//the person's address you want to send to
 
 const transferTransaction = TransferTransaction.create(
     Deadline.create(),
@@ -47,29 +45,21 @@ const transferTransaction = TransferTransaction.create(
     PlainMessage.create('enjoy your ticket!'),
     NetworkType.MIJIN_TEST
 );
+
 /* end block 01 */
 
-/* start block 02 */
-const networkGenerationHash = process.env.NETWORK_GENERATION_HASH;
+/* start block 02 get the meta generation hash at http://52.194.207.217:3000/block/1 */
+const networkGenerationHash = "9F1979BEBA29C47E59B40393ABB516801A353CFC0C18BC241FEDE41939C907E7"; 
 const account = Account.createFromPrivateKey(privateKey, NetworkType.MIJIN_TEST);
 const signedTransaction = account.sign(transferTransaction, networkGenerationHash);
-const debug = false;
-if(debug){
-    console.debug("Hash:");
-    console.debug(networkGenerationHash);
-    console.debug("Transaction");
-    console.debug(transferTransaction);
-    console.debug(signedTransaction);
-}
-
 /* end block 02 */
 
 /* start block 03 */
-const transactionHttp = new TransactionHttp('http://40.90.163.184:3000');    //your node, both sender and receiver have to be on the same node
+const transactionHttp = new TransactionHttp(node);    //your node, both sender and receiver have to be on the same node
 
 transactionHttp.announce(signedTransaction);
 /* end block 03 */
 
-setTimeout(function(){checkvalidity(signedTransaction.hash.toString())},500);
+setTimeout(function(){checkvalidity(signedTransaction.hash.toString())},1000);
 
 
