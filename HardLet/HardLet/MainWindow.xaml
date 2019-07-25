@@ -99,7 +99,7 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Button x:Name="one" FontSize="20" Click="One_Click"/>
+            <Button x:Name="one" FontSize="25" Click="One_Click"/>
             <Button Grid.Column="1" x:Name="two" FontSize="25" Click="Two_Click"/>
             <Button Grid.Column="2" x:Name="three" FontSize="25" Click="Three_Click"/>
             <Button Grid.Row="1" x:Name="four" FontSize="25" Click="Four_Click"/>

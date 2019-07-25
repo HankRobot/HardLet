@@ -7,6 +7,7 @@ using System.Diagnostics;
 using Newtonsoft.Json.Linq;
 using System.Windows.Media;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace HardLet
 {
@@ -21,6 +22,7 @@ namespace HardLet
         private bool connected = false;
         string comdata;
         private static SerialPort mySerialPort;
+        string nodeurl = "http://52.194.207.217:3000";
 
         /// <summary>
         /// For 6 pin button
@@ -231,7 +233,7 @@ namespace HardLet
                 if (mySerialPort.IsOpen || SenderPrivateKey.Content == string.Empty || SenderPublicKey.Text == string.Empty)
                 {
                     comdata = mySerialPort.ReadLine();
-                    Dispatcher.InvokeAsync((Action)(() => Console.WriteLine("Data: " + comdata)));
+                    //Dispatcher.InvokeAsync((Action)(() => Console.WriteLine("Data: " + comdata)));
                     if (comdata.Substring(0, 13) == message + "private")
                     {
                         string privatekey = comdata.Substring(13, 32) + System.Environment.NewLine + comdata.Substring(comdata.Length - 33, 32);
@@ -378,7 +380,7 @@ namespace HardLet
         {
             if (mySerialPort.IsOpen)
             {
-                string result = RESTAPIExecute("http://40.90.163.184:3000//account/" + Sender.getpublickey());
+                string result = RESTAPIExecute(nodeurl + "//account/" + Sender.getpublickey());
                 Debug.WriteLine(result, "REST Result: ");
                 JObject root = JObject.Parse(result); // parse as array  
                 string address = (String)root["account"]["address"];
@@ -460,42 +462,28 @@ namespace HardLet
             // in order to avoid deadlock we will read output first 
             // and then wait for process terminate: 
             StreamReader myStreamReader = myProcess.StandardOutput;
-            string one = myStreamReader.ReadLine();
-            string two = myStreamReader.ReadLine();
-            string three = myStreamReader.ReadLine();
-            string four = myStreamReader.ReadLine();
             string Status = myStreamReader.ReadLine();
             string hash = myStreamReader.ReadLine();
-            Console.WriteLine(one);
-            Console.WriteLine(two);
-            Console.WriteLine(three);
-            Console.WriteLine(four);
             Console.WriteLine(Status);
             Console.WriteLine(hash);
 
             myProcess.WaitForExit();
             myProcess.Close();
-            if (Status != "Success!")
+            if (Status != "Transaction Success!")
             {
                 MessageBox.Show("Transaction Failed", "Transaction Status");
             }
             else
             {
-                MessageBoxResult result = MessageBox.Show(Status + "\n Here is your hash:" + hash, "Transaction Status");
-                switch (result)
-                {
-                    case MessageBoxResult.Yes:
-                        Process.Start("http://40.90.163.184:3000/transaction/" + hash);
-                        break;
-                }
-                Process.Start("http://www.webpage.com");
+                MessageBoxResult result = MessageBox.Show(Status + System.Environment.NewLine + "Hash: " + hash, "Transaction Status");
+                Process.Start(nodeurl + "//transaction/" + hash + "/status");
                 Refresh.IsEnabled = true;
             }
         }
 
         private void Refresh_Click(object sender, RoutedEventArgs e)
         {
-            string result = RESTAPIExecute("http://40.90.163.184:3000//account/" + Sender.getpublickey());
+            string result = RESTAPIExecute(nodeurl+ "//account/" + Sender.getpublickey());
             Debug.WriteLine(result, "REST Result: ");
             JObject root = JObject.Parse(result); // parse as array  
             string address = (String)root["account"]["address"];
@@ -506,7 +494,7 @@ namespace HardLet
             Sender.setmosaicID(mosaics);
         }
 
-        private void Close_Click(object sender, RoutedEventArgs e)
+        private async void Close_Click(object sender, RoutedEventArgs e)
         {
             if (mySerialPort.IsOpen)
             {
@@ -517,7 +505,13 @@ namespace HardLet
                 SerialDataSend(buttonseq);
                 mySerialPort.Close();
             }
-            Application.Current.Shutdown();
+            await ClosingTasks();
+        }
+
+        private async Task ClosingTasks()
+        {
+            await Task.Delay(1000);
+            this.Close();
         }
     }
 

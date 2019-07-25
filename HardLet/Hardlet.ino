@@ -122,12 +122,12 @@ String converttoascii(const char* message) {
   return result;
 }
 
-String key = "694106D8410D6BD1AAEEC1A468D47BA940130CC7DF774100B6DE3B9CBDE26BC7"; //Hank Bot's private key
-String pubkey = "58908D0758292DBAC944AAE6C76DBB50069C1CC11EC063F1870861DCCD1CA7BC"; //Hank Bot's public key
+String key = "75938334DAFA7EF743FB2A9694C8025648959DC8FDE61678AC99281826BED7A3"; //HankJapan Bot's private key
+String pubkey = "B8CFB04B8B3BE478C0FC53D14203F45325A50556BF8C92189C6741A38484030D"; //HankJapan Bot's public key
 void getblockchaininfo() {
   if (WiFi.status() == WL_CONNECTED) {
     HTTPClient http; //Object of class HTTPClient
-    http.begin("http://40.90.163.184:3000/transaction/2255387803FA41E9F2FD66A16804F6DF965492344E9C8C19AFDFA76C4D470DFD");
+    http.begin("http://52.194.207.217:3000//transaction/1C422D93B96F6FB98B61FC04CD4E1F6F268BAC8642DABBC346D15323E4655304");
     int httpCode = http.GET();
 
     if (httpCode > 0) {
@@ -146,7 +146,7 @@ void getblockchaininfo() {
       display.clear();
       display.setFont(ArialMT_Plain_10);
       displaystring("Block Height: " + String(height), 0, 0);
-      displaystring(converttoascii(message), 0, 15);
+      displaystring("Message" + converttoascii(message), 0, 15);
       displaystring("Mosaic ID: " + String(mosaic), 0, 30);
       displaystring("Mosaic: " + String(mosaicamount), 0, 45);
 
