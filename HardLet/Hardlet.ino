@@ -5,35 +5,18 @@
 
 // Initialize the OLED display using Wire library
 SSD1306Wire  display(0x3c, D2, D1);  //D2=SDK  D1=SCK  As per labeling on NodeMCU
-
-/*--------------------------------------------------------------------------------For WiFi-------------------------------------------------------------------------------- */
-#include <ESP8266HTTPClient.h>
-#include <ArduinoJson.h>
-
-const char* ssid = "NBC_Guest";
-const char* password = "nbc1234!";
+/*-------------------------------------------------------------------------------Blockchain Info-------------------------------------------------------------------------------*/
+String key = "75938334DAFA7EF743FB2A9694C8025648959DC8FDE61678AC99281826BED7A3"; //HankJapan Bot's private key
+String pubkey = "B8CFB04B8B3BE478C0FC53D14203F45325A50556BF8C92189C6741A38484030D"; //HankJapan Bot's public key
 /*--------------------------------------------------------------------------------Setup----------------------------------------------------------------------------------- */
 void displaysetup() {
+  Serial.begin(115200);
   display.init();
   display.flipScreenVertically();
   display.setFont(ArialMT_Plain_16);
 }
 
-void wifisetup() {
-  Serial.begin(115200);
-  pinMode(LED_BUILTIN, OUTPUT);
-  WiFi.begin(ssid, password);
-
-  while (WiFi.status() != WL_CONNECTED)
-  {
-    delay(1000);
-    //Serial.println("Connecting...");
-  }
-  //Serial.println("Connected!");
-}
-
 void setup() {
-  wifisetup();
   displaysetup();
   randomSeed(analogRead(D0));
 }
@@ -122,40 +105,13 @@ String converttoascii(const char* message) {
   return result;
 }
 
-String key = "75938334DAFA7EF743FB2A9694C8025648959DC8FDE61678AC99281826BED7A3"; //HankJapan Bot's private key
-String pubkey = "B8CFB04B8B3BE478C0FC53D14203F45325A50556BF8C92189C6741A38484030D"; //HankJapan Bot's public key
 void getblockchaininfo() {
-  if (WiFi.status() == WL_CONNECTED) {
-    HTTPClient http; //Object of class HTTPClient
-    http.begin("http://52.194.207.217:3000//transaction/1C422D93B96F6FB98B61FC04CD4E1F6F268BAC8642DABBC346D15323E4655304");
-    int httpCode = http.GET();
-
-    if (httpCode > 0) {
-      digitalWrite(LED_BUILTIN, HIGH);
-      const size_t bufferSize = JSON_OBJECT_SIZE(6) + JSON_OBJECT_SIZE(4) + JSON_OBJECT_SIZE(9) + JSON_OBJECT_SIZE(7) + JSON_OBJECT_SIZE(2) + JSON_OBJECT_SIZE(5) + 370;
-      DynamicJsonBuffer jsonBuffer(bufferSize);
-      JsonObject& root = jsonBuffer.parseObject(http.getString());
-
-      int height = root["meta"]["height"][0];
-      const char* hash = root["meta"]["hash"];
-      const char* recipient = root["transaction"]["recipient"];
-      const char* message = root["transaction"]["message"]["payload"];
-      int mosaic = root["transaction"]["mosaics"][0]["id"][0];
-      int mosaicamount = root["transaction"]["mosaics"][0]["amount"][0];
-
-      display.clear();
-      display.setFont(ArialMT_Plain_10);
-      displaystring("Block Height: " + String(height), 0, 0);
-      displaystring("Message" + converttoascii(message), 0, 15);
-      displaystring("Mosaic ID: " + String(mosaic), 0, 30);
-      displaystring("Mosaic: " + String(mosaicamount), 0, 45);
-
-      display.display();
-      Serial.println(pass+String("private")+key);
-      Serial.println(pass+String("public")+pubkey);
-    }
-    http.end(); //Close connection
-  }
+  display.clear();
+  display.setFont(ArialMT_Plain_16);
+  displaystring("Connected!", 20, 25);
+  display.display();
+  Serial.println(pass+String("private")+key);
+  Serial.println(pass+String("public")+pubkey);     
 }
 /*--------------------------------------------------------------------------------Serial Functions-------------------------------------------------------------------------------- */
 void checkSerial() {
