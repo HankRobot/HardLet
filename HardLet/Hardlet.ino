@@ -6,8 +6,8 @@
 // Initialize the OLED display using Wire library
 SSD1306Wire  display(0x3c, D2, D1);  //D2=SDK  D1=SCK  As per labeling on NodeMCU
 /*-------------------------------------------------------------------------------Blockchain Info-------------------------------------------------------------------------------*/
-String key = "75938334DAFA7EF743FB2A9694C8025648959DC8FDE61678AC99281826BED7A3"; //HankJapan Bot's private key
-String pubkey = "B8CFB04B8B3BE478C0FC53D14203F45325A50556BF8C92189C6741A38484030D"; //HankJapan Bot's public key
+String key = ""; //Your private key
+String pubkey = ""; //Your public key
 /*--------------------------------------------------------------------------------Setup----------------------------------------------------------------------------------- */
 void displaysetup() {
   Serial.begin(115200);
