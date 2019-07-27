@@ -19,3 +19,24 @@ C:\Users\User\Desktop\ArduinoNEM\HardLet\HardLet\obj\Debug\HardLet.csproj.CopyCo
 C:\Users\User\Desktop\ArduinoNEM\HardLet\HardLet\bin\Debug\Newtonsoft.Json.dll
 C:\Users\User\Desktop\ArduinoNEM\HardLet\HardLet\bin\Debug\Newtonsoft.Json.xml
 C:\Users\User\Desktop\ArduinoNEM\HardLet\HardLet\obj\Debug\HardLet_Content.g.cs
+C:\Users\Hank Bot\Desktop\ArduinoNEM\HardLet\HardLet\bin\Debug\HardLet.exe.config
+C:\Users\Hank Bot\Desktop\ArduinoNEM\HardLet\HardLet\bin\Debug\HardLet.exe
+C:\Users\Hank Bot\Desktop\ArduinoNEM\HardLet\HardLet\bin\Debug\HardLet.pdb
+C:\Users\Hank Bot\Desktop\ArduinoNEM\HardLet\HardLet\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Hank Bot\Desktop\ArduinoNEM\HardLet\HardLet\bin\Debug\RestSharp.dll
+C:\Users\Hank Bot\Desktop\ArduinoNEM\HardLet\HardLet\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Hank Bot\Desktop\ArduinoNEM\HardLet\HardLet\bin\Debug\RestSharp.xml
+C:\Users\Hank Bot\Desktop\ArduinoNEM\HardLet\HardLet\obj\Debug\HardLet.csprojAssemblyReference.cache
+C:\Users\Hank Bot\Desktop\ArduinoNEM\HardLet\HardLet\obj\Debug\MainWindow.g.cs
+C:\Users\Hank Bot\Desktop\ArduinoNEM\HardLet\HardLet\obj\Debug\App.g.cs
+C:\Users\Hank Bot\Desktop\ArduinoNEM\HardLet\HardLet\obj\Debug\HardLet_Content.g.cs
+C:\Users\Hank Bot\Desktop\ArduinoNEM\HardLet\HardLet\obj\Debug\HardLet_MarkupCompile.cache
+C:\Users\Hank Bot\Desktop\ArduinoNEM\HardLet\HardLet\obj\Debug\HardLet_MarkupCompile.lref
+C:\Users\Hank Bot\Desktop\ArduinoNEM\HardLet\HardLet\obj\Debug\MainWindow.baml
+C:\Users\Hank Bot\Desktop\ArduinoNEM\HardLet\HardLet\obj\Debug\HardLet.g.resources
+C:\Users\Hank Bot\Desktop\ArduinoNEM\HardLet\HardLet\obj\Debug\HardLet.Properties.Resources.resources
+C:\Users\Hank Bot\Desktop\ArduinoNEM\HardLet\HardLet\obj\Debug\HardLet.csproj.GenerateResource.cache
+C:\Users\Hank Bot\Desktop\ArduinoNEM\HardLet\HardLet\obj\Debug\HardLet.csproj.CoreCompileInputs.cache
+C:\Users\Hank Bot\Desktop\ArduinoNEM\HardLet\HardLet\obj\Debug\HardLet.csproj.CopyComplete
+C:\Users\Hank Bot\Desktop\ArduinoNEM\HardLet\HardLet\obj\Debug\HardLet.exe
+C:\Users\Hank Bot\Desktop\ArduinoNEM\HardLet\HardLet\obj\Debug\HardLet.pdb

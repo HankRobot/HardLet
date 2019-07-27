@@ -1,16 +1,3 @@
 {
-    "files.associations": {
-        "initializer_list": "cpp",
-        "list": "cpp",
-        "vector": "cpp",
-        "xhash": "cpp",
-        "xstring": "cpp",
-        "xutility": "cpp",
-        "type_traits": "cpp",
-        "functional": "cpp",
-        "xtr1common": "cpp",
-        "algorithm": "cpp",
-        "memory": "cpp"
-    },
-    "git.ignoreLimitWarning": true
+    "arduino.path": "C:/Program Files (x86)/Arduino"
 }
