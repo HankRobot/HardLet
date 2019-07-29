@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/HankRobot/ArduinoNEM#readme",
   "dependencies": {
-    "nem2-sdk": "^0.13.0",
+    "nem2-sdk": "^0.13.1",
     "rxjs": "^6.5.2"
   }
 }
