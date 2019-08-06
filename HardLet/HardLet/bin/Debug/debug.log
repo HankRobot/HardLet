@@ -178,3 +178,4 @@
 [0725/131638.091:ERROR:crash_report_database_win.cc(469)] failed to stat report
 [0725/131638.091:ERROR:crash_report_database_win.cc(469)] failed to stat report
 [0725/131638.091:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0806/150531.827:ERROR:settings.cc(320)] Settings magic is not 1129342067

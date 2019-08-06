@@ -1,5 +1,5 @@
 const nem2Sdk = require("nem2-sdk");
-const node = 'http://52.194.207.217:3000';
+const node = 'http://3.1.202.148:3000';
 
 function checkvalidity(hashstring)
 {
@@ -55,10 +55,10 @@ const transferTransaction = TransferTransaction.create(
     PlainMessage.create('enjoy your ticket!'),
     NetworkType.MIJIN_TEST
 );
-
+transferTransaction.maxFee = UInt64.fromUint(parseInt(transferTransaction.serialize().substring(0, 2), 16) * 100); //Max Fees are now required on elephant v2
 /* end block 01 */
 
-/* start block 02 get the meta generation hash at http://52.194.207.217:3000/block/1 */
+/* start block 02 get the meta generation hash at http://3.1.202.148:3000/block/1 */
 const networkGenerationHash = "9F1979BEBA29C47E59B40393ABB516801A353CFC0C18BC241FEDE41939C907E7"; 
 const account = Account.createFromPrivateKey(privateKey, NetworkType.MIJIN_TEST);
 const signedTransaction = account.sign(transferTransaction, networkGenerationHash);
@@ -70,6 +70,6 @@ const transactionHttp = new TransactionHttp(node);    //your node, both sender a
 transactionHttp.announce(signedTransaction);
 /* end block 03 */
 
-setTimeout(function(){checkvalidity(signedTransaction.hash.toString())},1000);
+setTimeout(function(){checkvalidity(signedTransaction.hash.toString())},2000);
 
 

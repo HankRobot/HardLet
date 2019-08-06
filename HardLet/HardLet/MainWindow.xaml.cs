@@ -22,7 +22,7 @@ namespace HardLet
         private bool connected = false;
         string comdata;
         private static SerialPort mySerialPort;
-        string nodeurl = "http://52.194.207.217:3000";
+        string nodeurl = "http://3.1.202.148:3000";
 
         /// <summary>
         /// For 6 pin button
@@ -380,7 +380,8 @@ namespace HardLet
         {
             if (mySerialPort.IsOpen)
             {
-                string result = RESTAPIExecute(nodeurl + "//account/" + Sender.getpublickey());
+                Debug.WriteLine(nodeurl + "/account/" + Sender.getpublickey(), "REST Result: ");
+                string result = RESTAPIExecute(nodeurl + "/account/" + Sender.getpublickey());
                 Debug.WriteLine(result, "REST Result: ");
                 JObject root = JObject.Parse(result); // parse as array  
                 string address = (String)root["account"]["address"];
@@ -476,14 +477,14 @@ namespace HardLet
             else
             {
                 MessageBoxResult result = MessageBox.Show(Status + System.Environment.NewLine + "Hash: " + hash, "Transaction Status");
-                Process.Start(nodeurl + "//transaction/" + hash + "/status");
+                Process.Start(nodeurl + "/transaction/" + hash + "/status");
                 Refresh.IsEnabled = true;
             }
         }
 
         private void Refresh_Click(object sender, RoutedEventArgs e)
         {
-            string result = RESTAPIExecute(nodeurl+ "//account/" + Sender.getpublickey());
+            string result = RESTAPIExecute(nodeurl+ "/account/" + Sender.getpublickey());
             Debug.WriteLine(result, "REST Result: ");
             JObject root = JObject.Parse(result); // parse as array  
             string address = (String)root["account"]["address"];
