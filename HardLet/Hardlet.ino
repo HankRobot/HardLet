@@ -8,19 +8,19 @@ SSD1306Wire  display(0x3c, D2, D1);  //D2=SDK  D1=SCK  As per labeling on NodeMC
 /*-------------------------------------------------------------------------------Blockchain Info-------------------------------------------------------------------------------*/
 String key = ""; //Your private key
 String pubkey = ""; //Your public key
-/*--------------------------------------------------------------------------------Setup----------------------------------------------------------------------------------- */
-void displaysetup() {
-  Serial.begin(115200);
-  display.init();
-  display.flipScreenVertically();
-  display.setFont(ArialMT_Plain_16);
-}
+  /*--------------------------------------------------------------------------------Setup----------------------------------------------------------------------------------- */
+  void displaysetup() {
+    Serial.begin(115200);
+    display.init();
+    display.flipScreenVertically();
+    display.setFont(ArialMT_Plain_16);
+  }
 
-void setup() {
-  displaysetup();
-  randomSeed(analogRead(D0));
-}
-/*--------------------------------------------------------------------------------Main Program-------------------------------------------------------------------------------- */
+  void setup() {
+    displaysetup();
+    randomSeed(analogRead(D0));
+  }
+  /*--------------------------------------------------------------------------------Main Program-------------------------------------------------------------------------------- */
 String message = "000000";
 String pass = "";
 bool reset = true;

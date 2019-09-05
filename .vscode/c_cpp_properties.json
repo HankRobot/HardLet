@@ -5,7 +5,8 @@
             "includePath": [
                 "C:\\Program Files (x86)\\Arduino\\libraries",
                 "C:\\Users\\Hank Bot\\AppData\\Local\\Arduino15\\packages\\esp8266\\tools\\**",
-                "C:\\Users\\Hank Bot\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.5.2\\**"
+                "C:\\Users\\Hank Bot\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.5.2\\**",
+                "C:\\Users\\Hank Bot\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.3.0\\**"
             ],
             "forcedInclude": [],
             "intelliSenseMode": "msvc-x64",
