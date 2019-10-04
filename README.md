@@ -12,6 +12,8 @@ This project is focused on deploying NEM Catapult only on Arduino devices via RE
 3. Go to the bin folder of the Hardlet folder, and launch Hardlet.exe.
 
 # Contribute
-1. Pin code and serial communication is complete, whats left is basic transaction coding.
+1. Basic mosaic transaction is done.
+2. Account generation?
+3. Other transaction types
 
 #HAPPY CODING!!! :heart:
